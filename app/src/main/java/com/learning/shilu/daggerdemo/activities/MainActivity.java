@@ -9,10 +9,11 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
+import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.fragments.FirstFragment;
 import com.learning.shilu.daggerdemo.fragments.SecondFragment;
+import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
@@ -26,8 +27,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         setContentView(R.layout.activity_main);
         tv_current_status = (TextView) findViewById(R.id.tv_current_status);
         btnSwitch = (Button) findViewById(R.id.btn_switch_fragment);
-        sharedPreferences = getSharedPreferences("dagger_demo", MODE_PRIVATE);
-        switchFragment(sharedPreferences.getBoolean("NewStatus", true));
+
+//        sharedPreferences = getSharedPreferences("dagger_demo", MODE_PRIVATE);
+//        switchFragment(sharedPreferences.getBoolean("NewStatus", true));
+
+        switchFragment(DaggerDemoApplication.getDaggerSettings().getStatus());
     }
 
     private void switchFragment(boolean newStatus) {
@@ -66,9 +70,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     @Override
     public void onFragmentInteraction(boolean bool) {
-        if(bool){
-            tv_current_status.setText(sharedPreferences.getString("Today's Status",""));
-        }
+//        tv_current_status.setText(sharedPreferences.getString("Today's Status", ""));
+        tv_current_status.setText(DaggerDemoApplication.getDaggerSettings().getTodayStatus());
         switchFragment(bool);
     }
 }
