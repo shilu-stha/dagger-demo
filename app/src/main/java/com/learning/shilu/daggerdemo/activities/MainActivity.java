@@ -1,4 +1,4 @@
-package com.learning.shilu.daggerdemo;
+package com.learning.shilu.daggerdemo.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
+import com.learning.shilu.daggerdemo.R;
+import com.learning.shilu.daggerdemo.fragments.FirstFragment;
+import com.learning.shilu.daggerdemo.fragments.SecondFragment;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
