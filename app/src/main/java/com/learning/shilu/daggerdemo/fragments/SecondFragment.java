@@ -1,14 +1,19 @@
-package com.learning.shilu.daggerdemo;
+package com.learning.shilu.daggerdemo.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
+
+import com.learning.shilu.daggerdemo.DaggerDemoApplication;
+import com.learning.shilu.daggerdemo.R;
+import com.learning.shilu.daggerdemo.configs.DaggerDemoSettings;
+import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 
 /**
@@ -16,10 +21,10 @@ import android.widget.EditText;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FirstFragment#newInstance} factory method to
+ * Use the {@link SecondFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FirstFragment extends Fragment {
+public class SecondFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,9 +35,10 @@ public class FirstFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private EditText etStatus;
+    private SharedPreferences sharedPreferences;
+    private DaggerDemoSettings daggerDemoSettings;
 
-    public FirstFragment() {
+    public SecondFragment() {
         // Required empty public constructor
     }
 
@@ -42,11 +48,11 @@ public class FirstFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FirstFragment.
+     * @return A new instance of fragment SecondFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FirstFragment newInstance(String param1, String param2) {
-        FirstFragment fragment = new FirstFragment();
+    public static SecondFragment newInstance(String param1, String param2) {
+        SecondFragment fragment = new SecondFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,10 +73,19 @@ public class FirstFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_first, container, false);
+        View view = inflater.inflate(R.layout.fragment_second, container, false);
 
-        etStatus = (EditText) view.findViewById(R.id.et_status);
-        Button btn = (Button) view.findViewById(R.id.btn_save);
+        TextView textView = (TextView) view.findViewById(R.id.tv_status);
+        Button btn = (Button) view.findViewById(R.id.btn_change);
+
+//        sharedPreferences = getContext().getSharedPreferences("dagger_demo", getContext().MODE_PRIVATE);
+//        textView.setText(sharedPreferences.getString("Today's Status", ""));
+
+//        daggerDemoSettings = new DaggerDemoSettings();
+//        textView.setText(daggerDemoSettings.getSharedPreferences(getContext()).getString("Today's Status", ""));
+
+        textView.setText(DaggerDemoApplication.getDaggerSettings().getTodayStatus());
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +94,15 @@ public class FirstFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void onButtonPressed() {
+//        daggerDemoSettings.putValue("NewStatus", true);
+        DaggerDemoApplication.getDaggerSettings().setStatus(true);
+
+        if (mListener != null) {
+            mListener.onFragmentInteraction(true);
+        }
     }
 
 
@@ -97,21 +121,5 @@ public class FirstFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    public void onButtonPressed() {
-        if (!TextUtils.isEmpty(etStatus.getText().toString())) {
-//            SharedPreferences sharedPreferences = getContext().getSharedPreferences("dagger_demo", getContext().MODE_PRIVATE);
-//            sharedPreferences.edit().putBoolean("NewStatus", false).commit();
-//            sharedPreferences.edit().putString("Today's Status", etStatus.getText().toString()).commit();
-
-//            DaggerDemoSettings daggerDemoSettings = new DaggerDemoSettings();
-//            daggerDemoSettings.putValue("NewStatus", false);
-//            daggerDemoSettings.putValue("Today's Status", etStatus.getText().toString());
-
-            if (mListener != null) {
-                mListener.onFragmentInteraction(false);
-            }
-        }
     }
 }

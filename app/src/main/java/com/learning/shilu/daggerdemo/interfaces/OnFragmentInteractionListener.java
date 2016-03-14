@@ -1,4 +1,4 @@
-package com.learning.shilu.daggerdemo;
+package com.learning.shilu.daggerdemo.interfaces;
 
 /**
  * This interface must be implemented by activities that contain this
