@@ -103,6 +103,7 @@ public class FirstFragment extends Fragment {
     }
 
     private void updateBackground() {
+        DaggerDemoApplication.getDaggerSettings().setSelectedPosition(mPosition);
         mListener.onMoodSelection(mPosition);
     }
 

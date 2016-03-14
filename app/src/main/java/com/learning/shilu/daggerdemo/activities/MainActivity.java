@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         if (newStatus) {
             fragment = new FirstFragment(listMoods);
         } else {
+            onMoodSelection(DaggerDemoApplication.getDaggerSettings().getSelectedPosition());
             fragment = new SecondFragment(listMoods);
         }
         getSupportFragmentManager()
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     @Override
     public void onFragmentInteraction(boolean bool) {
 //        tv_current_status.setText(sharedPreferences.getString("Today's Status", ""));
-        tv_current_status.setText(DaggerDemoApplication.getDaggerSettings().getTodayStatus());
+//        tv_current_status.setText(DaggerDemoApplication.getDaggerSettings().getTodayStatus());
         switchFragment(bool);
     }
 

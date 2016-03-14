@@ -11,6 +11,7 @@ public class PrefConfig {
     private static final String PREF_NAME = "DaggerDemoPreferences";
     private static final String KEY_TODAY_STATUS = "TodayStatus";
     private static final String KEY_STATUS = "NewStatus";
+    private static final String KEY_SELECTED_POSITION = "SelectedPosition";
     private static PrefConfig prefConfig;
     private final SharedPreferences sharedPreferences;
 
@@ -61,5 +62,15 @@ public class PrefConfig {
      */
     public Boolean getStatus() {
         return sharedPreferences.getBoolean(KEY_STATUS, true);
+    }
+
+    public void setSelectedPosition(int mPosition) {
+        SharedPreferences.Editor editor = getEditor();
+        editor.putInt(KEY_SELECTED_POSITION, mPosition);
+        editor.commit();
+    }
+
+    public int getSelectedPosition() {
+        return sharedPreferences.getInt(KEY_SELECTED_POSITION, 0);
     }
 }
