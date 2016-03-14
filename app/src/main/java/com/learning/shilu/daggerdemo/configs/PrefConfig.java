@@ -1,7 +1,9 @@
-package com.learning.shilu.daggerdemo;
+package com.learning.shilu.daggerdemo.configs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 
 /**
  * Created by HP on 3/14/2016.

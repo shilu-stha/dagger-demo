@@ -1,4 +1,4 @@
-package com.learning.shilu.daggerdemo;
+package com.learning.shilu.daggerdemo.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
+import com.learning.shilu.daggerdemo.R;
 
 
 /**
