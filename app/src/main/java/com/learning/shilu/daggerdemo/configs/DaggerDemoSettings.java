@@ -3,17 +3,15 @@ package com.learning.shilu.daggerdemo.configs;
 import android.content.Context;
 
 /**
- * Created by Shilu Shrestha on 3/11/2016.
+ * Created by HP on 3/11/2016.
  */
 public class DaggerDemoSettings {
-
     private static DaggerDemoSettings daggerSettings;
     private final Context context;
 
     public DaggerDemoSettings(Context context) {
         this.context = context;
     }
-
 
     public static DaggerDemoSettings getInstance(Context context) {
         if (daggerSettings == null) {
@@ -40,4 +38,5 @@ public class DaggerDemoSettings {
     public String getTodayStatus() {
         return PrefConfig.getInstance(context).getTodayStatus("");
     }
+
 }
