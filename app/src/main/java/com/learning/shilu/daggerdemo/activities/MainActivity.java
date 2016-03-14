@@ -81,9 +81,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     @Override
     public void onFragmentInteraction(boolean bool) {
-        if (bool) {
-            tv_current_status.setText(sharedPreferences.getString("Today's Status", ""));
-        }
+//        if (bool) {
+//            tv_current_status.setText(sharedPreferences.getString("Today's Status", ""));
+//        }
         switchFragment(bool);
     }
 
