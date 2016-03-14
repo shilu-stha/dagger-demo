@@ -7,4 +7,23 @@
     <string name="second_fragment_message">Is this how you feel??</string>
     <string name="title_activity_status_list">StatusListActivity</string>
 
+    <string-array name="color_list">
+        <item>#CDDC39</item>
+        <item>#00BCD4</item>
+        <item>#FF5722</item>
+        <item>#1976D2</item>
+        <item>#FFEB3B</item>
+        <item>#7B1FA2</item>
+        <item>#FF4081</item>
+    </string-array>
+
+    <string-array name="mood_list">
+        <item>Normal</item>
+        <item>Pleased</item>
+        <item>Stressed</item>
+        <item>Calm</item>
+        <item>Anxious</item>
+        <item>Romantic</item>
+        <item>Happy</item>
+    </string-array>
 </resources>

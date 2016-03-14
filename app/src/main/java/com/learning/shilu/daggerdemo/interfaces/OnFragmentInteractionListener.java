@@ -12,4 +12,6 @@ package com.learning.shilu.daggerdemo.interfaces;
  */
 public interface OnFragmentInteractionListener {
     void onFragmentInteraction(boolean b);
+
+    void onMoodSelection(int mPosition);
 }

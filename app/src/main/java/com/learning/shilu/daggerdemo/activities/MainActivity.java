@@ -1,18 +1,20 @@
 package com.learning.shilu.daggerdemo.activities;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.fragments.FirstFragment;
 import com.learning.shilu.daggerdemo.fragments.SecondFragment;
+import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
@@ -20,12 +22,25 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     private TextView tv_current_status;
     private SharedPreferences sharedPreferences;
 
+    private LinearLayout llMain;
+
+    private String[] listColors;
+    private String[] listMoods;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tv_current_status = (TextView) findViewById(R.id.tv_current_status);
-        btnSwitch = (Button) findViewById(R.id.btn_switch_fragment);
+
+        listColors = getResources().getStringArray(R.array.color_list);
+        listMoods = getResources().getStringArray(R.array.mood_list);
+
+//        tv_current_status = (TextView) findViewById(R.id.tv_current_status);
+//        btnSwitch = (Button) findViewById(R.id.btn_switch_fragment);
+
+        llMain = (LinearLayout) findViewById(R.id.ll_main_container);
+
         sharedPreferences = getSharedPreferences("dagger_demo", MODE_PRIVATE);
         switchFragment(sharedPreferences.getBoolean("NewStatus", true));
     }
@@ -33,13 +48,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     private void switchFragment(boolean newStatus) {
         Fragment fragment;
         if (newStatus) {
-            fragment = new FirstFragment();
+            fragment = new FirstFragment(listMoods);
         } else {
-            fragment = new SecondFragment();
+            fragment = new SecondFragment(listMoods);
         }
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container, fragment)
+                .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 
@@ -66,9 +81,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     @Override
     public void onFragmentInteraction(boolean bool) {
-        if(bool){
-            tv_current_status.setText(sharedPreferences.getString("Today's Status",""));
+        if (bool) {
+            tv_current_status.setText(sharedPreferences.getString("Today's Status", ""));
         }
         switchFragment(bool);
+    }
+
+    @Override
+    public void onMoodSelection(int mPosition) {
+        llMain.setBackgroundColor(Color.parseColor(listColors[mPosition]));
     }
 }

@@ -18,11 +18,12 @@
         android:gravity="center"
         android:text="@string/first_fragment_message" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/et_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:editable="false"
         android:gravity="center"
         android:hint="I feel good"
         android:textSize="20sp" />

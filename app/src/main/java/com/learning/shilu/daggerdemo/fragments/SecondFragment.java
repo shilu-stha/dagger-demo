@@ -28,6 +28,7 @@ public class SecondFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static String[] listMoods;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -37,8 +38,9 @@ public class SecondFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private DaggerDemoSettings daggerDemoSettings;
 
-    public SecondFragment() {
+    public SecondFragment(String[] listMoods) {
         // Required empty public constructor
+        this.listMoods = listMoods;
     }
 
     /**
@@ -51,7 +53,7 @@ public class SecondFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static SecondFragment newInstance(String param1, String param2) {
-        SecondFragment fragment = new SecondFragment();
+        SecondFragment fragment = new SecondFragment(listMoods);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
