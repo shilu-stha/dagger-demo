@@ -3,7 +3,7 @@ package com.learning.shilu.daggerdemo.configs;
 import android.content.Context;
 
 /**
- * Created by HP on 3/11/2016.
+ * Created by Shilu Shrestha on 3/11/2016.
  */
 public class DaggerDemoSettings {
 

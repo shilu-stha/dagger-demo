@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Created by HP on 3/14/2016.
+ * Created by Shilu Shrestha on 3/14/2016.
  */
 public class PrefConfig {
 

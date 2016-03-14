@@ -6,7 +6,7 @@ import android.content.Context;
 import com.learning.shilu.daggerdemo.configs.DaggerDemoSettings;
 
 /**
- * Created by HP on 3/11/2016.
+ * Created by Shilu Shrestha on 3/11/2016.
  */
 public class DaggerDemoApplication extends Application {
     static Context context;
