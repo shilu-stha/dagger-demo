@@ -8,10 +8,6 @@ import android.content.SharedPreferences;
  */
 public class PrefConfig {
 
-    private static final String PREF_NAME = "DaggerDemoPreferences";
-    private static final String KEY_TODAY_STATUS = "TodayStatus";
-    private static final String KEY_STATUS = "NewStatus";
-    private static final String KEY_SELECTED_POSITION = "SelectedPosition";
     private static PrefConfig prefConfig;
     private final SharedPreferences sharedPreferences;
 
@@ -22,7 +18,7 @@ public class PrefConfig {
     }
 
     private PrefConfig(Context context) {
-        sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
     }
 
     /**
@@ -39,7 +35,7 @@ public class PrefConfig {
      */
     public void setTodayStatus(String status) {
         SharedPreferences.Editor editor = getEditor();
-        editor.putString(KEY_TODAY_STATUS, status);
+        editor.putString(Constants.KEY_TODAY_STATUS, status);
         editor.commit();
     }
 
@@ -48,29 +44,29 @@ public class PrefConfig {
      */
     public void setStatus(Boolean status) {
         SharedPreferences.Editor editor = getEditor();
-        editor.putBoolean(KEY_STATUS, status);
+        editor.putBoolean(Constants.KEY_STATUS, status);
         editor.commit();
     }
 
     /**
      */
     public String getTodayStatus(String defaultPath) {
-        return sharedPreferences.getString(KEY_TODAY_STATUS, defaultPath);
+        return sharedPreferences.getString(Constants.KEY_TODAY_STATUS, defaultPath);
     }
 
     /**
      */
     public Boolean getStatus() {
-        return sharedPreferences.getBoolean(KEY_STATUS, true);
+        return sharedPreferences.getBoolean(Constants.KEY_STATUS, true);
     }
 
     public void setSelectedPosition(int mPosition) {
         SharedPreferences.Editor editor = getEditor();
-        editor.putInt(KEY_SELECTED_POSITION, mPosition);
+        editor.putInt(Constants.KEY_SELECTED_POSITION, mPosition);
         editor.commit();
     }
 
     public int getSelectedPosition() {
-        return sharedPreferences.getInt(KEY_SELECTED_POSITION, 0);
+        return sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION, 0);
     }
 }

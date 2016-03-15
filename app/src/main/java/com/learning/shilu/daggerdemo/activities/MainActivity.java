@@ -1,27 +1,39 @@
 package com.learning.shilu.daggerdemo.activities;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
+import com.learning.shilu.daggerdemo.PreferencesModule;
 import com.learning.shilu.daggerdemo.R;
+import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.fragments.FirstFragment;
 import com.learning.shilu.daggerdemo.fragments.SecondFragment;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
-    private Button btnSwitch;
-    private TextView tv_current_status;
-    private SharedPreferences sharedPreferences;
+//    private Button btnSwitch;
+//    private TextView tv_current_status;
+
+//    @Inject
+//    SharedPreferences sharedPreferences;
+
+    @Inject
+    PreferencesModule preferencesModule;
+    @Inject
+    @Named(Constants.KEY_STATUS)
+    boolean status;
+    @Inject
+    int position;
 
     private LinearLayout llMain;
 
@@ -34,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // inject dagger
+        DaggerDemoApplication.component().inject(this);
+
         listColors = getResources().getStringArray(R.array.color_list);
         listMoods = getResources().getStringArray(R.array.mood_list);
 
@@ -45,7 +60,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 //        sharedPreferences = getSharedPreferences("dagger_demo", MODE_PRIVATE);
 //        switchFragment(sharedPreferences.getBoolean("NewStatus", true));
 
-        switchFragment(DaggerDemoApplication.getDaggerSettings().getStatus());
+//        switchFragment(DaggerDemoApplication.getDaggerSettings().getStatus());
+//        switchFragment(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
+        switchFragment(status);
     }
 
     private void switchFragment(boolean newStatus) {
@@ -53,7 +70,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         if (newStatus) {
             fragment = new FirstFragment(listMoods);
         } else {
-            onMoodSelection(DaggerDemoApplication.getDaggerSettings().getSelectedPosition());
+//            onMoodSelection(DaggerDemoApplication.getDaggerSettings().getSelectedPosition());
+            System.out.println("MainActivity position " + position);
+
+            onMoodSelection(preferencesModule.getSelectedPos());
+            /* FIXME position is not updated on every-time it is saved need to find a workaround for this */
+            // onMoodSelection(position);
             fragment = new SecondFragment(listMoods);
         }
         getSupportFragmentManager()

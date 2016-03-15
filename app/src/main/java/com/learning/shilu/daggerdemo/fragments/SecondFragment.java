@@ -11,9 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
+import com.learning.shilu.daggerdemo.PreferencesModule;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.configs.DaggerDemoSettings;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
+
+import javax.inject.Inject;
 
 
 /**
@@ -34,6 +37,12 @@ public class SecondFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    @Inject
+    PreferencesModule preferencesModule;
+
+    @Inject
+    String todayStatus;
 
     private OnFragmentInteractionListener mListener;
     private SharedPreferences sharedPreferences;
@@ -65,6 +74,8 @@ public class SecondFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // inject dagger
+        DaggerDemoApplication.component().inject(this);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -86,7 +97,9 @@ public class SecondFragment extends Fragment {
 //        daggerDemoSettings = new DaggerDemoSettings();
 //        textView.setText(daggerDemoSettings.getSharedPreferences(getContext()).getString("Today's Status", ""));
 
-        textView.setText(DaggerDemoApplication.getDaggerSettings().getTodayStatus());
+//        textView.setText(preferencesModule.getTodayStatus());
+
+        textView.setText(todayStatus);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,8 +113,9 @@ public class SecondFragment extends Fragment {
 
     private void onButtonPressed() {
 //        daggerDemoSettings.putValue("NewStatus", true);
-        DaggerDemoApplication.getDaggerSettings().setStatus(true);
+//        DaggerDemoApplication.getDaggerSettings().setStatus(true);
 
+        preferencesModule.setStatus(true);
         if (mListener != null) {
             mListener.onFragmentInteraction(true);
         }

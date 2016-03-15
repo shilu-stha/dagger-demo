@@ -13,8 +13,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
+import com.learning.shilu.daggerdemo.PreferencesModule;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
+
+import javax.inject.Inject;
 
 
 /**
@@ -33,6 +36,9 @@ public class FirstFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private AutoCompleteTextView etStatus;
+
+    @Inject
+    PreferencesModule preferencesModule;
 
     public FirstFragment(String[] listMoods) {
         // Required empty public constructor
@@ -59,6 +65,10 @@ public class FirstFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // inject dagger
+        DaggerDemoApplication.component().inject(this);
+
         if (getArguments() != null) {
             mPosition = getArguments().getInt(SELECTED_POSITION);
         }
@@ -103,7 +113,11 @@ public class FirstFragment extends Fragment {
     }
 
     private void updateBackground() {
-        DaggerDemoApplication.getDaggerSettings().setSelectedPosition(mPosition);
+//        DaggerDemoApplication.getDaggerSettings().setSelectedPosition(mPosition);
+
+        System.out.println("Selected position " + mPosition);
+
+        preferencesModule.setSelectedPosition(mPosition);
         mListener.onMoodSelection(mPosition);
     }
 
@@ -131,8 +145,11 @@ public class FirstFragment extends Fragment {
 //            sharedPreferences.edit().putBoolean("NewStatus", false).commit();
 //            sharedPreferences.edit().putString("Today's Status", etStatus.getText().toString()).commit();
 
-            DaggerDemoApplication.getDaggerSettings().setStatus(false);
-            DaggerDemoApplication.getDaggerSettings().setTodayStatus(etStatus.getText().toString());
+//            DaggerDemoApplication.getDaggerSettings().setStatus(false);
+//            DaggerDemoApplication.getDaggerSettings().setTodayStatus(etStatus.getText().toString());
+
+            preferencesModule.setStatus(false);
+            preferencesModule.setTodayStatus(etStatus.getText().toString());
 
             if (mListener != null) {
                 mListener.onFragmentInteraction(false);
