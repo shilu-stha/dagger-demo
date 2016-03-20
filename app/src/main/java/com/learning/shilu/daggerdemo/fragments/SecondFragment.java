@@ -13,26 +13,20 @@ import android.widget.TextView;
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.PreferencesModule;
 import com.learning.shilu.daggerdemo.R;
+import com.learning.shilu.daggerdemo.Status;
+import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.DaggerDemoSettings;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 import javax.inject.Inject;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SecondFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SecondFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static String[] listMoods;
+    private static String[] listFeels;
+    private Status status;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -48,27 +42,12 @@ public class SecondFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private DaggerDemoSettings daggerDemoSettings;
 
-    public SecondFragment(String[] listMoods) {
+    public SecondFragment(String[] listFeels, Status status) {
         // Required empty public constructor
-        this.listMoods = listMoods;
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SecondFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SecondFragment newInstance(String param1, String param2) {
-        SecondFragment fragment = new SecondFragment(listMoods);
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        this.listFeels = listFeels;
+        if (status != null) {
+            this.status = status;
+        }
     }
 
     @Override
@@ -88,18 +67,25 @@ public class SecondFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_second, container, false);
 
-        TextView textView = (TextView) view.findViewById(R.id.tv_status);
+        TextView tvStatus = (TextView) view.findViewById(R.id.tv_status);
+        TextView tvCurrent = (TextView) view.findViewById(R.id.tv_status);
         Button btn = (Button) view.findViewById(R.id.btn_change);
 
-//        sharedPreferences = getContext().getSharedPreferences("dagger_demo", getContext().MODE_PRIVATE);
-//        textView.setText(sharedPreferences.getString("Today's Status", ""));
-
+        if (status != null) {
+            tvStatus.setText(listFeels[status.getSelectedMood()]);
+            tvCurrent.setText(status.getStatus());
+        } else {
+            sharedPreferences = getContext().getSharedPreferences(Constants.PREF_NAME, getContext().MODE_PRIVATE);
+            tvStatus.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));
+            tvCurrent.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));
+//            tvCurrent.setText(listFeels[sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION, 0)]);
+        }
 //        daggerDemoSettings = new DaggerDemoSettings();
 //        textView.setText(daggerDemoSettings.getSharedPreferences(getContext()).getString("Today's Status", ""));
 
 //        textView.setText(preferencesModule.getTodayStatus());
 
-        textView.setText(todayStatus);
+//        textView.setText(todayStatus);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

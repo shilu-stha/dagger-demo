@@ -8,12 +8,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:transitionName="status_view"
+    android:id="@+id/rl_main_container"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.StatusListActivity"
-    tools:showIn="@layout/activity_status_list">
+    tools:context="com.learning.shilu.daggerdemo.activities.StatusDetailActivity"
+    tools:showIn="@layout/activity_status_detail">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btn_switch_fragment" />
+
 </RelativeLayout>

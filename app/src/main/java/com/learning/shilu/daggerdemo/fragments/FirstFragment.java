@@ -1,6 +1,7 @@
 package com.learning.shilu.daggerdemo.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -11,55 +12,37 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.PreferencesModule;
 import com.learning.shilu.daggerdemo.R;
+import com.learning.shilu.daggerdemo.Status;
+import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 import javax.inject.Inject;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FirstFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FirstFragment extends Fragment {
     private static final String SELECTED_POSITION = "SelectedPosition";
-    private static String[] listMoods = new String[20];
+    private static String[] listFeels = new String[20];
+    private Status status = null;
 
     private int mPosition;
 
     private OnFragmentInteractionListener mListener;
     private AutoCompleteTextView etStatus;
+    private EditText etCurrentStatus;
 
     @Inject
     PreferencesModule preferencesModule;
 
-    public FirstFragment(String[] listMoods) {
-        // Required empty public constructor
-        this.listMoods = listMoods;
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param position Parameter 1.
-     * @param list     Parameter 2.
-     * @return A new instance of fragment FirstFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FirstFragment newInstance(int position, String[] list) {
-        FirstFragment fragment = new FirstFragment(list);
-        Bundle args = new Bundle();
-        args.putInt(SELECTED_POSITION, position);
-        fragment.setArguments(args);
-        return fragment;
+    public FirstFragment(String[] listFeels, Status status) {
+        this.listFeels = listFeels;
+        if(status != null){
+            this.status = status;
+        }
     }
 
     @Override
@@ -81,9 +64,10 @@ public class FirstFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_first, container, false);
 
         etStatus = (AutoCompleteTextView) view.findViewById(R.id.et_status);
+        etCurrentStatus = (EditText) view.findViewById(R.id.et_current_status);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_dropdown_item_1line, listMoods);
+                android.R.layout.simple_dropdown_item_1line, listFeels);
         etStatus.setAdapter(adapter);
 
         etStatus.setOnClickListener(new View.OnClickListener() {
@@ -141,9 +125,12 @@ public class FirstFragment extends Fragment {
 
     public void onButtonPressed() {
         if (!TextUtils.isEmpty(etStatus.getText().toString())) {
-//            SharedPreferences sharedPreferences = getContext().getSharedPreferences("dagger_demo", getContext().MODE_PRIVATE);
-//            sharedPreferences.edit().putBoolean("NewStatus", false).commit();
-//            sharedPreferences.edit().putString("Today's Status", etStatus.getText().toString()).commit();
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.PREF_NAME, getContext().MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(Constants.KEY_STATUS, false);
+            editor.putString(Constants.KEY_TODAY_STATUS, etCurrentStatus.getText().toString());
+            editor.putInt(Constants.KEY_SELECTED_POSITION, mPosition);
+            editor.commit();
 
 //            DaggerDemoApplication.getDaggerSettings().setStatus(false);
 //            DaggerDemoApplication.getDaggerSettings().setTodayStatus(etStatus.getText().toString());

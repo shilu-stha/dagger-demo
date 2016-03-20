@@ -10,13 +10,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".fragments.FirstFragment">
 
-    <TextView
-        android:id="@+id/tv_first_fragment_message"
+    <EditText
+        android:id="@+id/et_current_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:gravity="center"
-        android:text="@string/first_fragment_message" />
+        android:hint="@string/first_fragment_message"
+        android:textSize="16sp" />
 
     <AutoCompleteTextView
         android:id="@+id/et_status"
@@ -25,8 +26,8 @@
         android:layout_marginTop="10dp"
         android:editable="false"
         android:gravity="center"
-        android:hint="I feel good"
-        android:textSize="20sp" />
+        android:hint="Feeling??"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/btn_save"
