@@ -16,7 +16,7 @@ import dagger.Provides;
  * Created by HP on 3/14/2016.
  */
 @Module
-public class AndroidModule {
+public class ApplicationModule {
     /**
      * Provides application context to be used in the entire application
      *

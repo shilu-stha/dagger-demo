@@ -2,7 +2,7 @@ package com.learning.shilu.daggerdemo;
 
 import android.app.Application;
 
-import com.learning.shilu.daggerdemo.module.AndroidModule;
+import com.learning.shilu.daggerdemo.module.ApplicationModule;
 import com.learning.shilu.daggerdemo.module.PreferencesModule;
 
 /**
@@ -24,7 +24,7 @@ public class DaggerDemoApplication extends Application {
 
         // Perform injection
         //component = DaggerDemoComponent.builder().
-        //        androidModule(new AndroidModule())
+        //        androidModule(new ApplicationModule())
         //.preferencesModule(new PreferencesModule())
         //.build();
         component = DaggerComponentInitializer.init();
@@ -51,7 +51,7 @@ public class DaggerDemoApplication extends Application {
 
         public static DemoComponent init() {
             return DaggerDemoComponent.builder()
-                    .androidModule(new AndroidModule())
+                    .androidModule(new ApplicationModule())
                     .preferencesModule(new PreferencesModule())
                     .build();
         }

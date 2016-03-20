@@ -4,7 +4,7 @@ import com.learning.shilu.daggerdemo.activities.MainActivity;
 import com.learning.shilu.daggerdemo.activities.StatusDetailActivity;
 import com.learning.shilu.daggerdemo.fragments.FirstFragment;
 import com.learning.shilu.daggerdemo.fragments.SecondFragment;
-import com.learning.shilu.daggerdemo.module.AndroidModule;
+import com.learning.shilu.daggerdemo.module.ApplicationModule;
 import com.learning.shilu.daggerdemo.module.PreferencesModule;
 import com.learning.shilu.daggerdemo.module.StatusDataModule;
 
@@ -17,7 +17,7 @@ import dagger.Component;
  */
 @Singleton
 @Component(modules = {
-        AndroidModule.class,
+        ApplicationModule.class,
         PreferencesModule.class,
         StatusDataModule.class
 })
