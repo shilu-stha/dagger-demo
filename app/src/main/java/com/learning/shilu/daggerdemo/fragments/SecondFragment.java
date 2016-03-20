@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
-import com.learning.shilu.daggerdemo.PreferencesModule;
+import com.learning.shilu.daggerdemo.module.PreferencesModule;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.Status;
 import com.learning.shilu.daggerdemo.configs.Constants;
@@ -54,7 +54,7 @@ public class SecondFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // inject dagger
-        DaggerDemoApplication.component().inject(this);
+        DaggerDemoApplication.getComponent().inject(this);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);

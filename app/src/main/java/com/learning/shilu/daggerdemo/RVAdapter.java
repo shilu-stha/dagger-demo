@@ -1,5 +1,6 @@
 package com.learning.shilu.daggerdemo;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,18 +16,20 @@ import java.util.ArrayList;
  */
 public class RVAdapter extends RecyclerView.Adapter<MyViewHolder>{
     private final ArrayList<Status> arraylist;
+    private final Context context;
     private String[] listColors;
 
    public onClick onClickListener;
 
-    public RVAdapter(ArrayList<Status> statusArrayList, String[] listColors) {
+    public RVAdapter(Context context,ArrayList<Status> statusArrayList, String[] listColors) {
         this.arraylist = statusArrayList;
         this.listColors = listColors;
+        this.context = context;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(DaggerDemoApplication.getContext()).inflate(R.layout.item, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.item, null);
         return new MyViewHolder(view);
     }
 

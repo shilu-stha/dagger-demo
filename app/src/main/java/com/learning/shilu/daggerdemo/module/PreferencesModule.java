@@ -1,4 +1,4 @@
-package com.learning.shilu.daggerdemo;
+package com.learning.shilu.daggerdemo.module;
 
 import android.content.SharedPreferences;
 
@@ -12,7 +12,7 @@ import dagger.Provides;
 /**
  * Created by Shilu Shrestha on 3/15/2016.
  */
-@Module(includes = AndroidModule.class)
+@Module
 public class PreferencesModule {
 
     SharedPreferences sharedPref;
@@ -58,7 +58,7 @@ public class PreferencesModule {
     /**
      */
     @Provides
-    public String getTodayStatus(SharedPreferences sharedPref) {
+    public String getTodayStatus() {
         return sharedPref.getString(Constants.KEY_TODAY_STATUS, "");
     }
 
@@ -66,7 +66,7 @@ public class PreferencesModule {
      */
     @Provides
     @Named(Constants.KEY_STATUS)
-    public Boolean getStatus(SharedPreferences sharedPref) {
+    public Boolean getStatus() {
         return sharedPref.getBoolean(Constants.KEY_STATUS, true);
     }
 

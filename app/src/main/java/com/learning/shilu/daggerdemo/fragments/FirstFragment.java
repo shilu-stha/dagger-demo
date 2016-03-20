@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
-import com.learning.shilu.daggerdemo.PreferencesModule;
+import com.learning.shilu.daggerdemo.module.PreferencesModule;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.Status;
 import com.learning.shilu.daggerdemo.configs.Constants;
@@ -50,7 +50,7 @@ public class FirstFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // inject dagger
-        DaggerDemoApplication.component().inject(this);
+        DaggerDemoApplication.getComponent().inject(this);
 
         if (getArguments() != null) {
             mPosition = getArguments().getInt(SELECTED_POSITION);

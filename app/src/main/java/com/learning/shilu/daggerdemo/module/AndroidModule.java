@@ -1,8 +1,10 @@
-package com.learning.shilu.daggerdemo;
+package com.learning.shilu.daggerdemo.module;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 
+import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.configs.Constants;
 
 import javax.inject.Singleton;
@@ -26,6 +28,7 @@ public class AndroidModule {
         return DaggerDemoApplication.getInstance().getApplicationContext();
     }
 
+
     /**
      * Provides SharedPreferences to be used through out the application
      *
@@ -44,6 +47,17 @@ public class AndroidModule {
         return PreferencesModule.getInstance(sharedPreferences);
     }
 
+    @Provides
+    @Singleton
+    public Resources getResources(Context context) {
+        return context.getResources();
+    }
+
+    /*@Provides
+    @Singleton
+    public StatusDataModule getStatusData(Resources resources) {
+        return StatusDataModule.getInstance(resources);
+    }*/
     /**
      * Helps save boolean value on the SharedPreferences
      *
