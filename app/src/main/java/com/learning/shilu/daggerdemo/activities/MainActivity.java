@@ -1,31 +1,40 @@
 package com.learning.shilu.daggerdemo.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
-import com.learning.shilu.daggerdemo.fragments.FirstFragment;
-import com.learning.shilu.daggerdemo.fragments.SecondFragment;
-import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
+import com.learning.shilu.daggerdemo.RVAdapter;
+import com.learning.shilu.daggerdemo.Status;
+import com.learning.shilu.daggerdemo.configs.Constants;
+import com.learning.shilu.daggerdemo.interfaces.onClick;
 
-public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
+import java.util.ArrayList;
 
-    private Button btnSwitch;
-    private TextView tv_current_status;
+public class MainActivity extends AppCompatActivity implements onClick {
+
+    private TextView tvMood;
+    private TextView tvCurrentStatus;
+    private RelativeLayout rlStatusContainer;
+    private RecyclerView recyclerView;
+
     private SharedPreferences sharedPreferences;
-
-    private LinearLayout llMain;
-
     private String[] listColors;
-    private String[] listMoods;
+    private String[] listFeels;
+    private ArrayList<Status> statusArrayList = new ArrayList<>();
+    public static Activity activity;
+    private RVAdapter adapter;
 
 
     @Override
@@ -33,62 +42,90 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        activity = this;
+
+        // reference views
+        tvCurrentStatus = (TextView) findViewById(R.id.tv_status);
+        tvMood = (TextView) findViewById(R.id.tv_mood);
+        rlStatusContainer = (RelativeLayout) findViewById(R.id.rl_status_container);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        // populate lists
         listColors = getResources().getStringArray(R.array.color_list);
-        listMoods = getResources().getStringArray(R.array.mood_list);
+        listFeels = getResources().getStringArray(R.array.mood_list);
 
-//        tv_current_status = (TextView) findViewById(R.id.tv_current_status);
-//        btnSwitch = (Button) findViewById(R.id.btn_switch_fragment);
+        // reference saved value and update the UI
+        sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
+        updateStatus(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
 
-        llMain = (LinearLayout) findViewById(R.id.ll_main_container);
-
-        sharedPreferences = getSharedPreferences("dagger_demo", MODE_PRIVATE);
-        switchFragment(sharedPreferences.getBoolean("NewStatus", true));
+        addDummyData();
+        updateRecyclerView();
     }
 
-    private void switchFragment(boolean newStatus) {
-        Fragment fragment;
+    private void addDummyData() {
+        statusArrayList.clear();
+        statusArrayList.add(new Status("Discipline is just choosing between what you want now and what you want most.", 3));
+        statusArrayList.add(new Status("A child of five would understand this. Send someone to fetch a child of five", 5));
+        statusArrayList.add(new Status("You can do anything, but not everything.", 4));
+        statusArrayList.add(new Status("We should be taught not to wait for inspiration to start a thing." +
+                " Action always generates inspiration. Inspiration seldom generates action. ", 1));
+        statusArrayList.add(new Status("You can do anything, but not everything.", 4));
+        statusArrayList.add(new Status("I can accept failure, but I can't accept not trying.", 2));
+        statusArrayList.add(new Status("There are many who dare not kill themselves for fear of what the neighbors will say. - Cyril Connolly", 5));
+        statusArrayList.add(new Status("You can do anything, but not everything.", 4));
+    }
+
+    private void updateRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new RVAdapter(statusArrayList, listColors);
+        adapter.onClickListener = this;
+        recyclerView.setAdapter(adapter);
+        /*recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, StatusDetailActivity.class);
+                // Pass data object in the bundle and populate details activity.
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(MainActivity.this, rlStatusContainer, "status_view");
+                startActivity(intent, options.toBundle());
+            }
+        });*/
+    }
+
+    /**
+     * Update status preview view
+     *
+     * @param newStatus
+     */
+    private void updateStatus(boolean newStatus) {
         if (newStatus) {
-            fragment = new FirstFragment(listMoods);
+            rlStatusContainer.setBackgroundColor(Color.parseColor("#616161"));
+            tvCurrentStatus.setText("You haven't entered your status today!!");
+            tvMood.setVisibility(View.GONE);
         } else {
-            fragment = new SecondFragment(listMoods);
+            rlStatusContainer.setBackgroundColor(Color.parseColor(listColors[sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION, 0)]));
+            tvCurrentStatus.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));
+            tvMood.setVisibility(View.VISIBLE);
+            tvMood.setText(listFeels[sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION, 0)]);
         }
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
+    }
+
+
+    public void onClick(View view) {
+        startActivity(new Intent(this, StatusDetailActivity.class));
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    public void OnClick(View v, Status currentStatus) {
+        System.out.println("Status "+currentStatus.getStatus());
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        Intent intent = new Intent(DaggerDemoApplication.getContext(), StatusDetailActivity.class);
+        intent.putExtra(Constants.STATUS_VALUE, currentStatus);
+        // Pass data object in the bundle and populate details activity.
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this, v, "status_view");
+        startActivity(intent, options.toBundle());
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onFragmentInteraction(boolean bool) {
-//        if (bool) {
-//            tv_current_status.setText(sharedPreferences.getString("Today's Status", ""));
-//        }
-        switchFragment(bool);
-    }
-
-    @Override
-    public void onMoodSelection(int mPosition) {
-        llMain.setBackgroundColor(Color.parseColor(listColors[mPosition]));
     }
 }

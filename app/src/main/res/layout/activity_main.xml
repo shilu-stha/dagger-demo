@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_main_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/neutral"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="3">
 
-    <!--<TextView
-        android:id="@+id/tv_current_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Hello World!" />
-
-    <Button
-        android:id="@+id/btn_switch_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Click Me!" />
--->
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <RelativeLayout
+        android:id="@+id/rl_status_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/btn_switch_fragment" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:onClick="onClick">
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/tv_mood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_status"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2" />
 </LinearLayout>
