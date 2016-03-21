@@ -61,16 +61,22 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
 //        sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
 //        switchFragment(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
 
-        switchFragment(prefConfig.getStatus());
+        switchFragment(status);
     }
 
-    private void switchFragment(boolean newStatus) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void switchFragment(Status newStatus) {
         Fragment fragment;
-        if (newStatus) {
+        if (newStatus == null) {
             fragment = new FirstFragment(listFeels, status);
+            onFeelingSelection(7);
         } else {
             fragment = new SecondFragment(listFeels, status);
-            onMoodSelection(status.getSelectedPosition());
+            onFeelingSelection(status.getSelectedPosition());
         }
         getSupportFragmentManager()
                 .beginTransaction()
@@ -79,13 +85,12 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
     }
 
     @Override
-    public void onFragmentInteraction(boolean bool) {
-        switchFragment(bool);
+    public void onFragmentInteraction(Status status) {
+        switchFragment(status);
     }
 
     @Override
-    public void onMoodSelection(int mPosition) {
-        System.out.println("Mood " + mPosition);
+    public void onFeelingSelection(int mPosition) {
         rlMain.setBackgroundColor(Color.parseColor(listColors[mPosition]));
     }
 

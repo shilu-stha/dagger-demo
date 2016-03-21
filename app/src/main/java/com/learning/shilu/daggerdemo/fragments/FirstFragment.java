@@ -95,7 +95,7 @@ public class FirstFragment extends Fragment {
     }
 
     private void updateBackground() {
-        mListener.onMoodSelection(mPosition);
+        mListener.onFeelingSelection(mPosition);
     }
 
 
@@ -133,7 +133,7 @@ public class FirstFragment extends Fragment {
             prefConfig.setSelectedPosition(mPosition);
 
             if (mListener != null) {
-                mListener.onFragmentInteraction(false);
+                mListener.onFragmentInteraction(new Status(prefConfig.getTodayStatus(""), prefConfig.getSelectedPosition()));
             }
         }
     }

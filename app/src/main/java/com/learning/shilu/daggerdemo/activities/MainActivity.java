@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -128,7 +129,14 @@ public class MainActivity extends AppCompatActivity implements onClick {
 
 
     public void onClick(View view) {
-        startActivity(new Intent(this, StatusDetailActivity.class));
+        if (prefConfig.getStatus() != null) {
+            Intent intent = new Intent(MainActivity.this, StatusDetailActivity.class);
+            intent.putExtra(Constants.STATUS_VALUE, new Status(prefConfig.getTodayStatus(""), prefConfig.getSelectedPosition()));
+            startActivity(intent);
+
+        } else {
+            startActivity(new Intent(this, StatusDetailActivity.class));
+        }
     }
 
     @Override
@@ -136,8 +144,11 @@ public class MainActivity extends AppCompatActivity implements onClick {
         Intent intent = new Intent(MainActivity.this, StatusDetailActivity.class);
         intent.putExtra(Constants.STATUS_VALUE, currentStatus);
         // Pass data object in the bundle and populate details activity.
+        Pair<View, String> p1 = Pair.create(v, "status_view");
+        Pair<View, String> p2 = Pair.create(v, "status_msg");
+
         ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(this, v, "status_view");
+                makeSceneTransitionAnimation(this, p1, p2);
         startActivity(intent, options.toBundle());
     }
 }

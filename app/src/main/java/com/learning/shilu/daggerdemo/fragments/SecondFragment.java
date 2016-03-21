@@ -42,6 +42,9 @@ public class SecondFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private DaggerDemoSettings daggerDemoSettings;
 
+    public SecondFragment() {
+    }
+
     public SecondFragment(String[] listFeels, Status status) {
         // Required empty public constructor
         this.listFeels = listFeels;
@@ -71,17 +74,16 @@ public class SecondFragment extends Fragment {
         TextView tvCurrent = (TextView) view.findViewById(R.id.tv_current_status);
         FloatingActionButton btn = (FloatingActionButton) view.findViewById(R.id.btn_change);
 
-        if (status != null) {
-            tvStatus.setText(listFeels[status.getSelectedPosition()]);
-            tvCurrent.setText(status.getStatus());
-        } else {
+        if (status == null) {
+            status = new Status(status.getStatus(), prefConfig.getSelectedPosition());
+        }
+
+        tvStatus.setText(listFeels[status.getSelectedPosition()]);
+        tvCurrent.setText(status.getStatus());
+
 //            sharedPreferences = getContext().getSharedPreferences(Constants.PREF_NAME, getContext().MODE_PRIVATE);
 //            tvStatus.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));
 //            tvCurrent.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));
-
-            tvStatus.setText(listFeels[prefConfig.getSelectedPosition()]);
-            tvCurrent.setText(prefConfig.getTodayStatus(""));
-        }
 //        daggerDemoSettings = new DaggerDemoSettings();
 //        textView.setText(daggerDemoSettings.getSharedPreferences(getContext()).getString("Today's Status", ""));
 
@@ -102,7 +104,7 @@ public class SecondFragment extends Fragment {
 //        sharedPreferences.edit().putBoolean(Constants.KEY_STATUS, true);
         prefConfig.setStatus(true);
         if (mListener != null) {
-            mListener.onFragmentInteraction(true);
+            mListener.onFragmentInteraction(null);
         }
     }
 
