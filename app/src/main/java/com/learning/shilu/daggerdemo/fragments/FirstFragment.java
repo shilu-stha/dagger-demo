@@ -1,7 +1,6 @@
 package com.learning.shilu.daggerdemo.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -15,10 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
-import com.learning.shilu.daggerdemo.module.PreferencesModule;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.Status;
-import com.learning.shilu.daggerdemo.configs.Constants;
+import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 import javax.inject.Inject;
@@ -36,11 +34,11 @@ public class FirstFragment extends Fragment {
     private EditText etCurrentStatus;
 
     @Inject
-    PreferencesModule preferencesModule;
+    PrefConfig prefConfig;
 
     public FirstFragment(String[] listFeels, Status status) {
         this.listFeels = listFeels;
-        if(status != null){
+        if (status != null) {
             this.status = status;
         }
     }
@@ -97,11 +95,6 @@ public class FirstFragment extends Fragment {
     }
 
     private void updateBackground() {
-//        DaggerDemoApplication.getDaggerSettings().setSelectedPosition(mPosition);
-
-        System.out.println("Selected position " + mPosition);
-
-        preferencesModule.setSelectedPosition(mPosition);
         mListener.onMoodSelection(mPosition);
     }
 
@@ -125,18 +118,19 @@ public class FirstFragment extends Fragment {
 
     public void onButtonPressed() {
         if (!TextUtils.isEmpty(etStatus.getText().toString())) {
-            SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.PREF_NAME, getContext().MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(Constants.KEY_STATUS, false);
-            editor.putString(Constants.KEY_TODAY_STATUS, etCurrentStatus.getText().toString());
-            editor.putInt(Constants.KEY_SELECTED_POSITION, mPosition);
-            editor.commit();
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putBoolean(Constants.KEY_STATUS, false);
+//            editor.putString(Constants.KEY_TODAY_STATUS, etCurrentStatus.getText().toString());
+//            editor.putInt(Constants.KEY_SELECTED_POSITION, mPosition);
+//            editor.commit();
 
 //            DaggerDemoApplication.getDaggerSettings().setStatus(false);
 //            DaggerDemoApplication.getDaggerSettings().setTodayStatus(etStatus.getText().toString());
+//            DaggerDemoApplication.getDaggerSettings().setSelectedPosition(mPosition);
 
-            preferencesModule.setStatus(false);
-            preferencesModule.setTodayStatus(etStatus.getText().toString());
+            prefConfig.setStatus(false);
+            prefConfig.setTodayStatus(etStatus.getText().toString());
+            prefConfig.setSelectedPosition(mPosition);
 
             if (mListener != null) {
                 mListener.onFragmentInteraction(false);

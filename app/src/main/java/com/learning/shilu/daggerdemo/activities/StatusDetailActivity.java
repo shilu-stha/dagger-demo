@@ -1,6 +1,5 @@
 package com.learning.shilu.daggerdemo.activities;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +12,7 @@ import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.Status;
 import com.learning.shilu.daggerdemo.configs.Constants;
+import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.fragments.FirstFragment;
 import com.learning.shilu.daggerdemo.fragments.SecondFragment;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
@@ -23,7 +23,7 @@ import javax.inject.Named;
 public class StatusDetailActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
     @Inject
-    SharedPreferences sharedPreferences;
+    PrefConfig prefConfig;
 
     @Inject
     @Named(Constants.LIST_COLORS)
@@ -58,8 +58,10 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
         // listColors = getResources().getStringArray(R.array.color_list);
         // listFeels = getResources().getStringArray(R.array.mood_list);
 
-        sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
-        switchFragment(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
+//        sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
+//        switchFragment(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
+
+        switchFragment(prefConfig.getStatus());
     }
 
     private void switchFragment(boolean newStatus) {
@@ -68,7 +70,7 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
             fragment = new FirstFragment(listFeels, status);
         } else {
             fragment = new SecondFragment(listFeels, status);
-            onMoodSelection(sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION, 0));
+            onMoodSelection(prefConfig.getSelectedPosition());
         }
         getSupportFragmentManager()
                 .beginTransaction()
@@ -83,6 +85,7 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
 
     @Override
     public void onMoodSelection(int mPosition) {
+        System.out.println("Mood " + mPosition);
         rlMain.setBackgroundColor(Color.parseColor(listColors[mPosition]));
     }
 

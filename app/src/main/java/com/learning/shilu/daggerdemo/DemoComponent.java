@@ -5,7 +5,6 @@ import com.learning.shilu.daggerdemo.activities.StatusDetailActivity;
 import com.learning.shilu.daggerdemo.fragments.FirstFragment;
 import com.learning.shilu.daggerdemo.fragments.SecondFragment;
 import com.learning.shilu.daggerdemo.module.ApplicationModule;
-import com.learning.shilu.daggerdemo.module.PreferencesModule;
 import com.learning.shilu.daggerdemo.module.StatusDataModule;
 
 import javax.inject.Singleton;
@@ -18,7 +17,6 @@ import dagger.Component;
 @Singleton
 @Component(modules = {
         ApplicationModule.class,
-        PreferencesModule.class,
         StatusDataModule.class
 })
 public interface DemoComponent {

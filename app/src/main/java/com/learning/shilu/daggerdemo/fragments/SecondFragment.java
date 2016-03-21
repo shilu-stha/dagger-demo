@@ -1,7 +1,6 @@
 package com.learning.shilu.daggerdemo.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,11 +10,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
-import com.learning.shilu.daggerdemo.module.PreferencesModule;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.Status;
-import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.DaggerDemoSettings;
+import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 import javax.inject.Inject;
@@ -33,13 +31,15 @@ public class SecondFragment extends Fragment {
     private String mParam2;
 
     @Inject
-    PreferencesModule preferencesModule;
+    PrefConfig prefConfig;
 
-    @Inject
-    String todayStatus;
+//    @Inject
+//    PreferencesModule preferencesModule;
+
+//    @Inject
+//    String todayStatus;
 
     private OnFragmentInteractionListener mListener;
-    private SharedPreferences sharedPreferences;
     private DaggerDemoSettings daggerDemoSettings;
 
     public SecondFragment(String[] listFeels, Status status) {
@@ -68,24 +68,22 @@ public class SecondFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_second, container, false);
 
         TextView tvStatus = (TextView) view.findViewById(R.id.tv_status);
-        TextView tvCurrent = (TextView) view.findViewById(R.id.tv_status);
+        TextView tvCurrent = (TextView) view.findViewById(R.id.tv_current_status);
         Button btn = (Button) view.findViewById(R.id.btn_change);
 
         if (status != null) {
             tvStatus.setText(listFeels[status.getSelectedMood()]);
             tvCurrent.setText(status.getStatus());
         } else {
-            sharedPreferences = getContext().getSharedPreferences(Constants.PREF_NAME, getContext().MODE_PRIVATE);
-            tvStatus.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));
-            tvCurrent.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));
-//            tvCurrent.setText(listFeels[sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION, 0)]);
+//            sharedPreferences = getContext().getSharedPreferences(Constants.PREF_NAME, getContext().MODE_PRIVATE);
+//            tvStatus.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));
+//            tvCurrent.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));
+
+            tvStatus.setText(listFeels[prefConfig.getSelectedPosition()]);
+            tvCurrent.setText(prefConfig.getTodayStatus(""));
         }
 //        daggerDemoSettings = new DaggerDemoSettings();
 //        textView.setText(daggerDemoSettings.getSharedPreferences(getContext()).getString("Today's Status", ""));
-
-//        textView.setText(preferencesModule.getTodayStatus());
-
-//        textView.setText(todayStatus);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +99,8 @@ public class SecondFragment extends Fragment {
 //        daggerDemoSettings.putValue("NewStatus", true);
 //        DaggerDemoApplication.getDaggerSettings().setStatus(true);
 
-        preferencesModule.setStatus(true);
+//        sharedPreferences.edit().putBoolean(Constants.KEY_STATUS, true);
+        prefConfig.setStatus(true);
         if (mListener != null) {
             mListener.onFragmentInteraction(true);
         }

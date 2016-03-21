@@ -6,6 +6,7 @@ import android.content.res.Resources;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.configs.Constants;
+import com.learning.shilu.daggerdemo.configs.PrefConfig;
 
 import javax.inject.Singleton;
 
@@ -13,7 +14,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by HP on 3/14/2016.
+ * Created by Shilu Shrestha on 3/14/2016.
  */
 @Module
 public class ApplicationModule {
@@ -43,8 +44,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public PreferencesModule getPreference(SharedPreferences sharedPreferences) {
-        return PreferencesModule.getInstance(sharedPreferences);
+    public PrefConfig getPreference(SharedPreferences sharedPreferences) {
+        return PrefConfig.getInstance(sharedPreferences);
     }
 
     @Provides
@@ -52,47 +53,5 @@ public class ApplicationModule {
     public Resources getResources(Context context) {
         return context.getResources();
     }
-
-    /*@Provides
-    @Singleton
-    public StatusDataModule getStatusData(Resources resources) {
-        return StatusDataModule.getInstance(resources);
-    }*/
-    /**
-     * Helps save boolean value on the SharedPreferences
-     *
-     * @param key
-     * @param bool
-     * @return
-     *//*
-    @Provides
-    @Named(Constants.KEY_STATUS)
-    public Boolean putValue(String key, boolean bool) {
-        return getSharedPreferences(getContext()).edit().putBoolean(key, bool).commit();
-    }
-
-    *//**
-     * Helps save integer value on the SharedPreferences
-     *
-     * @param key
-     * @param value
-     * @return
-     *//*
-    @Provides
-    @Named(Constants.KEY_STATUS)
-    public Boolean putValue(String key, int value) {
-        return getSharedPreferences(getContext()).edit().putInt(key, value).commit();
-    }
-
-    *//**
-     * Helps save String value on the SharedPreferences
-     *
-     * @param key
-     * @param text
-     * @return
-     *//*
-    public Boolean putValue(String key, String text) {
-        return getSharedPreferences(getContext()).edit().putString(key, text).commit();
-    }*/
 
 }

@@ -2,7 +2,6 @@ package com.learning.shilu.daggerdemo.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -18,6 +17,7 @@ import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.RVAdapter;
 import com.learning.shilu.daggerdemo.Status;
 import com.learning.shilu.daggerdemo.configs.Constants;
+import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.interfaces.onClick;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import javax.inject.Named;
 public class MainActivity extends AppCompatActivity implements onClick {
 
     @Inject
-    SharedPreferences sharedPreferences;
+    PrefConfig prefConfig;
 
 //    @Inject
 //    PreferencesModule preferencesModule;
@@ -36,12 +36,12 @@ public class MainActivity extends AppCompatActivity implements onClick {
     @Inject
     Context context;
 
-    @Inject
-    @Named(Constants.KEY_STATUS)
-    boolean status;
+//    @Inject
+//    @Named(Constants.KEY_STATUS)
+//    boolean status;
 
-    @Inject
-    int position;
+//    @Inject
+//    int position;
 
     @Inject
     ArrayList<Status> statusArrayList;
@@ -85,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements onClick {
 
         // reference saved value and update the UI
         // sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
-        updateStatus(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
+        // updateStatus(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
+        updateStatus(prefConfig.getStatus());
 
         // addDummyData();
         updateRecyclerView();
@@ -128,10 +129,10 @@ public class MainActivity extends AppCompatActivity implements onClick {
             //tvFeels.setVisibility(View.VISIBLE);
             //tvFeels.setText(listFeels[sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION, 0)]);
 
-            rlStatusContainer.setBackgroundColor(Color.parseColor(listColors[sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION,0)]));
-            tvCurrentStatus.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));
+            rlStatusContainer.setBackgroundColor(Color.parseColor(listColors[prefConfig.getSelectedPosition()]));
+            tvCurrentStatus.setText(prefConfig.getTodayStatus(""));
             tvFeels.setVisibility(View.VISIBLE);
-            tvFeels.setText(listFeels[sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION, 0)]);
+            tvFeels.setText(listFeels[prefConfig.getSelectedPosition()]);
         }
     }
 

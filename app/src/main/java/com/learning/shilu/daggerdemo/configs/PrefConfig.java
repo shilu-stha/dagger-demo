@@ -1,6 +1,5 @@
 package com.learning.shilu.daggerdemo.configs;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
@@ -8,18 +7,22 @@ import android.content.SharedPreferences;
  */
 public class PrefConfig {
 
-    private static PrefConfig prefConfig;
     private final SharedPreferences sharedPreferences;
 
-    public static synchronized PrefConfig getInstance(Context context) {
-        if (prefConfig == null)
-            prefConfig = new PrefConfig(context);
-        return prefConfig;
+//    public static synchronized PrefConfig getInstance(SharedPreferences context) {
+//        if (prefConfig == null)
+//            prefConfig = new PrefConfig(context);
+//        return prefConfig;
+//    }
+
+    private PrefConfig(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
     }
 
-    private PrefConfig(Context context) {
-        sharedPreferences = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
+    public static PrefConfig getInstance(SharedPreferences sharedPreferences) {
+        return new PrefConfig(sharedPreferences);
     }
+
 
     /**
      * Return {@link SharedPreferences} editor so as to edit the preference value

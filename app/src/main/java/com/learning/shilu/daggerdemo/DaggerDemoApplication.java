@@ -3,7 +3,7 @@ package com.learning.shilu.daggerdemo;
 import android.app.Application;
 
 import com.learning.shilu.daggerdemo.module.ApplicationModule;
-import com.learning.shilu.daggerdemo.module.PreferencesModule;
+import com.learning.shilu.daggerdemo.module.StatusDataModule;
 
 /**
  * Created by Shilu Shrestha on 3/11/2016.
@@ -23,9 +23,9 @@ public class DaggerDemoApplication extends Application {
         instance = this;
 
         // Perform injection
-        //component = DaggerDemoComponent.builder().
-        //        androidModule(new ApplicationModule())
-        //.preferencesModule(new PreferencesModule())
+        //component = DaggerDemoComponent.builder()
+        //        .androidModule(new ApplicationModule())
+        //        .statusDataModule(new StatusDataModule())
         //.build();
         component = DaggerComponentInitializer.init();
 
@@ -51,8 +51,8 @@ public class DaggerDemoApplication extends Application {
 
         public static DemoComponent init() {
             return DaggerDemoComponent.builder()
-                    .androidModule(new ApplicationModule())
-                    .preferencesModule(new PreferencesModule())
+                    .applicationModule(new ApplicationModule())
+                    .statusDataModule(new StatusDataModule())
                     .build();
         }
 

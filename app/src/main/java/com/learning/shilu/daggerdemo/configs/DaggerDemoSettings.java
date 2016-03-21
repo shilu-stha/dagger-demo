@@ -23,27 +23,27 @@ public class DaggerDemoSettings {
     }
 
 
-    public void setStatus(Boolean status) {
-        PrefConfig.getInstance(context).setStatus(status);
-    }
+//    public void setStatus(Boolean status) {
+//        PrefConfig.getInstance(context).setStatus(status);
+//    }
 
-    public void setTodayStatus(String status) {
-        PrefConfig.getInstance(context).setTodayStatus(status);
-    }
+//    public void setTodayStatus(String status) {
+//        PrefConfig.getInstance(context).setTodayStatus(status);
+//    }
 
-    public Boolean getStatus() {
-        return PrefConfig.getInstance(context).getStatus();
-    }
+//    public Boolean getStatus() {
+//        return PrefConfig.getInstance(context).getStatus();
+//    }
 
-    public String getTodayStatus() {
-        return PrefConfig.getInstance(context).getTodayStatus("");
-    }
+//    public String getTodayStatus() {
+//        return PrefConfig.getInstance(context).getTodayStatus("");
+//    }
 
-    public void setSelectedPosition(int mPosition) {
-        PrefConfig.getInstance(context).setSelectedPosition(mPosition);
-    }
+//    public void setSelectedPosition(int mPosition) {
+//        PrefConfig.getInstance(context).setSelectedPosition(mPosition);
+//    }
 
-    public int getSelectedPosition() {
-        return PrefConfig.getInstance(context).getSelectedPosition();
-    }
+//    public int getSelectedPosition() {
+//        return PrefConfig.getInstance(context).getSelectedPosition();
+//    }
 }
