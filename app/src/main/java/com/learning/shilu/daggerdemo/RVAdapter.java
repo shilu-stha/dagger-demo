@@ -36,7 +36,7 @@ public class RVAdapter extends RecyclerView.Adapter<MyViewHolder>{
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.tvStatus.setText(arraylist.get(position).getStatus());
-        holder.cvItem.setBackgroundColor(Color.parseColor(listColors[arraylist.get(position).getSelectedMood()]));
+        holder.cvItem.setBackgroundColor(Color.parseColor(listColors[arraylist.get(position).getSelectedPosition()]));
         holder.currentStatus = arraylist.get(position);
         holder.onClickListener = onClickListener;
     }

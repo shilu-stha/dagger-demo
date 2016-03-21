@@ -70,7 +70,7 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
             fragment = new FirstFragment(listFeels, status);
         } else {
             fragment = new SecondFragment(listFeels, status);
-            onMoodSelection(prefConfig.getSelectedPosition());
+            onMoodSelection(status.getSelectedPosition());
         }
         getSupportFragmentManager()
                 .beginTransaction()

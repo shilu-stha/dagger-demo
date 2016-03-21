@@ -2,11 +2,11 @@ package com.learning.shilu.daggerdemo.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
@@ -69,10 +69,10 @@ public class SecondFragment extends Fragment {
 
         TextView tvStatus = (TextView) view.findViewById(R.id.tv_status);
         TextView tvCurrent = (TextView) view.findViewById(R.id.tv_current_status);
-        Button btn = (Button) view.findViewById(R.id.btn_change);
+        FloatingActionButton btn = (FloatingActionButton) view.findViewById(R.id.btn_change);
 
         if (status != null) {
-            tvStatus.setText(listFeels[status.getSelectedMood()]);
+            tvStatus.setText(listFeels[status.getSelectedPosition()]);
             tvCurrent.setText(status.getStatus());
         } else {
 //            sharedPreferences = getContext().getSharedPreferences(Constants.PREF_NAME, getContext().MODE_PRIVATE);

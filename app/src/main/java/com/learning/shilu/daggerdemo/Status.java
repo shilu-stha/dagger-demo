@@ -9,16 +9,16 @@ import android.os.Parcelable;
 public class Status implements Parcelable{
 
     String status;
-    int selectedMood;
+    int selectedPosition;
 
-    public Status(String status, int selectedMood) {
+    public Status(String status, int selectedPosition) {
         this.status = status;
-        this.selectedMood = selectedMood;
+        this.selectedPosition = selectedPosition;
     }
 
     protected Status(Parcel in) {
         status = in.readString();
-        selectedMood = in.readInt();
+        selectedPosition = in.readInt();
     }
 
     public static final Creator<Status> CREATOR = new Creator<Status>() {
@@ -41,12 +41,12 @@ public class Status implements Parcelable{
         this.status = status;
     }
 
-    public int getSelectedMood() {
-        return selectedMood;
+    public int getSelectedPosition() {
+        return selectedPosition;
     }
 
-    public void setSelectedMood(int selectedMood) {
-        this.selectedMood = selectedMood;
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
     }
 
     @Override
@@ -57,6 +57,6 @@ public class Status implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(status);
-        dest.writeInt(selectedMood);
+        dest.writeInt(selectedPosition);
     }
 }
