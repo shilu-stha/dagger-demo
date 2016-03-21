@@ -129,7 +129,7 @@ public class FirstFragment extends Fragment {
 //            DaggerDemoApplication.getDaggerSettings().setSelectedPosition(mPosition);
 
             prefConfig.setStatus(false);
-            prefConfig.setTodayStatus(etStatus.getText().toString());
+            prefConfig.setTodayStatus(etCurrentStatus.getText().toString());
             prefConfig.setSelectedPosition(mPosition);
 
             if (mListener != null) {
