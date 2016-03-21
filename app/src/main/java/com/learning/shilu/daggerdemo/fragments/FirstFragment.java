@@ -2,6 +2,7 @@ package com.learning.shilu.daggerdemo.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
@@ -83,7 +83,7 @@ public class FirstFragment extends Fragment {
             }
         });
 
-        Button btn = (Button) view.findViewById(R.id.btn_save);
+        FloatingActionButton btn = (FloatingActionButton) view.findViewById(R.id.btn_save);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

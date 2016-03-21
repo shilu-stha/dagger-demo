@@ -30,18 +30,8 @@ public class MainActivity extends AppCompatActivity implements onClick {
     @Inject
     PrefConfig prefConfig;
 
-//    @Inject
-//    PreferencesModule preferencesModule;
-
     @Inject
     Context context;
-
-//    @Inject
-//    @Named(Constants.KEY_STATUS)
-//    boolean status;
-
-//    @Inject
-//    int position;
 
     @Inject
     ArrayList<Status> statusArrayList;
