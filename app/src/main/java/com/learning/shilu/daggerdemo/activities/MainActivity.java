@@ -17,6 +17,7 @@ import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.RVAdapter;
 import com.learning.shilu.daggerdemo.Status;
+import com.learning.shilu.daggerdemo.configs.Config;
 import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.interfaces.onClick;
@@ -38,12 +39,19 @@ public class MainActivity extends AppCompatActivity implements onClick {
     ArrayList<Status> statusArrayList;
 
     @Inject
-    @Named(Constants.LIST_COLORS)
+    @Named(Constants.Inject.LIST_COLORS)
     String[] listColors;
 
     @Inject
-    @Named(Constants.LIST_FEELS)
+    @Named(Constants.Inject.LIST_FEELS)
     String[] listFeels;
+
+//    @Inject
+//    Realm realm;
+
+    @Inject
+    @Named(Constants.Inject.TODAYS_DATE)
+    String todaysDate;
 
     // private ArrayList<Status> statusArrayList = new ArrayList<>();
     // private String[] listColors;
@@ -81,7 +89,11 @@ public class MainActivity extends AppCompatActivity implements onClick {
 
         // addDummyData();
         updateRecyclerView();
+
+        checkDate();
     }
+
+
 
     /*private void addDummyData() {
         statusArrayList.clear();
@@ -129,20 +141,25 @@ public class MainActivity extends AppCompatActivity implements onClick {
 
 
     public void onClick(View view) {
+        Intent intent = new Intent(MainActivity.this, StatusDetailActivity.class);
+//        String date = Status.getDate(System.currentTimeMillis());
+//        Status status = realm.where(Status.class).equalTo("dateVal", date).findFirst();
         if (prefConfig.getStatus() != null) {
-            Intent intent = new Intent(MainActivity.this, StatusDetailActivity.class);
-            intent.putExtra(Constants.STATUS_VALUE, new Status(prefConfig.getTodayStatus(""), prefConfig.getSelectedPosition()));
+            Status status = new Status();
+            status.setDate(System.currentTimeMillis());
+            status.setStatus(prefConfig.getTodayStatus(""));
+            status.setSelectedPosition(prefConfig.getSelectedPosition());
+            intent.putExtra(Constants.Inject.STATUS_VALUE, status);
             startActivity(intent);
-
         } else {
-            startActivity(new Intent(this, StatusDetailActivity.class));
+            startActivity(intent);
         }
     }
 
     @Override
     public void OnClick(View v, Status currentStatus) {
         Intent intent = new Intent(MainActivity.this, StatusDetailActivity.class);
-        intent.putExtra(Constants.STATUS_VALUE, currentStatus);
+        intent.putExtra(Constants.Inject.STATUS_VALUE, currentStatus);
         // Pass data object in the bundle and populate details activity.
         Pair<View, String> p1 = Pair.create(v, "status_view");
         Pair<View, String> p2 = Pair.create(v, "status_msg");
@@ -150,5 +167,11 @@ public class MainActivity extends AppCompatActivity implements onClick {
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, p1, p2);
         startActivity(intent, options.toBundle());
+    }
+
+    private void checkDate() {
+        if (todaysDate.equals(Config.getDate(System.currentTimeMillis())) && prefConfig.getStatus()) {
+            System.out.println("Equal");
+        }
     }
 }

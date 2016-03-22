@@ -36,6 +36,10 @@ public class FirstFragment extends Fragment {
     @Inject
     PrefConfig prefConfig;
 
+//    @Inject
+//    Realm realm;
+    private long date;
+
     public FirstFragment(String[] listFeels, Status status) {
         this.listFeels = listFeels;
         if (status != null) {
@@ -128,12 +132,23 @@ public class FirstFragment extends Fragment {
 //            DaggerDemoApplication.getDaggerSettings().setTodayStatus(etStatus.getText().toString());
 //            DaggerDemoApplication.getDaggerSettings().setSelectedPosition(mPosition);
 
+            date = System.currentTimeMillis();
+
+            Status status = new Status();
+            status.setSelectedPosition(mPosition);
+            status.setStatus(etCurrentStatus.getText().toString());
+            status.setDate(date);
+
+//            realm.beginTransaction();
+//            realm.copyToRealm(status);
+//            realm.commitTransaction();
+
             prefConfig.setStatus(false);
             prefConfig.setTodayStatus(etCurrentStatus.getText().toString());
             prefConfig.setSelectedPosition(mPosition);
 
             if (mListener != null) {
-                mListener.onFragmentInteraction(new Status(prefConfig.getTodayStatus(""), prefConfig.getSelectedPosition()));
+                mListener.onFragmentInteraction(status);
             }
         }
     }

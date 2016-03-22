@@ -19,16 +19,8 @@ import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 import javax.inject.Inject;
 
 public class SecondFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private static String[] listFeels;
     private Status status;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     @Inject
     PrefConfig prefConfig;
@@ -58,10 +50,6 @@ public class SecondFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // inject dagger
         DaggerDemoApplication.getComponent().inject(this);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -75,11 +63,11 @@ public class SecondFragment extends Fragment {
         FloatingActionButton btn = (FloatingActionButton) view.findViewById(R.id.btn_change);
 
         if (status == null) {
-            status = new Status(status.getStatus(), prefConfig.getSelectedPosition());
+            status = new Status(status.getStatus(), prefConfig.getSelectedPosition(), status.getDate());
         }
 
-        tvStatus.setText(listFeels[status.getSelectedPosition()]);
-        tvCurrent.setText(status.getStatus());
+//        tvStatus.setText(listFeels[status.getSelectedPosition()]);
+//        tvCurrent.setText(status.getStatus());
 
 //            sharedPreferences = getContext().getSharedPreferences(Constants.PREF_NAME, getContext().MODE_PRIVATE);
 //            tvStatus.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));

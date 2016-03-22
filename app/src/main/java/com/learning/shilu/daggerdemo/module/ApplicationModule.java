@@ -5,9 +5,11 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
+import com.learning.shilu.daggerdemo.configs.Config;
 import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -25,7 +27,7 @@ public class ApplicationModule {
      */
     @Provides
     @Singleton
-    public Context getContext() {
+    public Context provideContext() {
         return DaggerDemoApplication.getInstance().getApplicationContext();
     }
 
@@ -38,20 +40,34 @@ public class ApplicationModule {
      */
     @Provides
     @Singleton
-    public SharedPreferences getSharedPreferences(Context context) {
+    public SharedPreferences provideSharedPreferences(Context context) {
         return context.getSharedPreferences(Constants.PREF_NAME, context.MODE_PRIVATE);
     }
 
     @Provides
     @Singleton
-    public PrefConfig getPreference(SharedPreferences sharedPreferences) {
+    public PrefConfig providePreference(SharedPreferences sharedPreferences) {
         return PrefConfig.getInstance(sharedPreferences);
     }
 
     @Provides
     @Singleton
-    public Resources getResources(Context context) {
+    public Resources provideResources(Context context) {
         return context.getResources();
     }
 
+//    @Provides
+//    @Singleton
+//    public Realm provideRealm(Context context) {
+//         Create a RealmConfiguration which is to locate Realm file in package's "files" directory.
+//        RealmConfiguration realmConfig = new RealmConfiguration.Builder(context).build();
+//         Get a Realm instance for this thread
+//        return Realm.getInstance(realmConfig);
+//    }
+
+    @Provides
+    @Named(Constants.Inject.TODAYS_DATE)
+    public String provideTodaysDate() {
+        return Config.getDate(System.currentTimeMillis());
+    }
 }

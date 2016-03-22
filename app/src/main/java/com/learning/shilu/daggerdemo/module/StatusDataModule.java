@@ -30,13 +30,13 @@ public class StatusDataModule {
     }
 */
     @Provides
-    @Named(Constants.LIST_COLORS)
+    @Named(Constants.Inject.LIST_COLORS)
     public String[] provideColorsList(Resources resources) {
         return resources.getStringArray(R.array.color_list);
     }
 
     @Provides
-    @Named(Constants.LIST_FEELS)
+    @Named(Constants.Inject.LIST_FEELS)
     public String[] provideFeelsList(Resources resources) {
         return resources.getStringArray(R.array.mood_list);
     }
@@ -44,15 +44,15 @@ public class StatusDataModule {
     @Provides
     public ArrayList<Status> provideDummyData() {
         ArrayList<Status> statusArrayList = new ArrayList<>();
-        statusArrayList.add(new Status("Discipline is just choosing between what you want now and what you want most.", 3));
-        statusArrayList.add(new Status("A child of five would understand this. Send someone to fetch a child of five", 5));
-        statusArrayList.add(new Status("You can do anything, but not everything.", 4));
+        statusArrayList.add(new Status("Discipline is just choosing between what you want now and what you want most.", 3, 1488499200000L));
+        statusArrayList.add(new Status("A child of five would understand this. Send someone to fetch a child of five", 5, 1478044800000L));
+        statusArrayList.add(new Status("You can do anything, but not everything.", 4, 1451606400000L));
         statusArrayList.add(new Status("We should be taught not to wait for inspiration to start a thing." +
-                " Action always generates inspiration. Inspiration seldom generates action. ", 1));
-        statusArrayList.add(new Status("You can do anything, but not everything.", 4));
-        statusArrayList.add(new Status("I can accept failure, but I can't accept not trying.", 2));
-        statusArrayList.add(new Status("There are many who dare not kill themselves for fear of what the neighbors will say. - Cyril Connolly", 5));
-        statusArrayList.add(new Status("You can do anything, but not everything.", 4));
+                " Action always generates inspiration. Inspiration seldom generates action. ", 1, 1478822400000L));
+        statusArrayList.add(new Status("You can do anything, but not everything.", 4, 1486771200000L));
+        statusArrayList.add(new Status("I can accept failure, but I can't accept not trying.", 2, 1470614400000L));
+        statusArrayList.add(new Status("There are many who dare not kill themselves for fear of what the neighbors will say. - Cyril Connolly", 5, 1441584000000L));
+        statusArrayList.add(new Status("You can do anything, but not everything.", 4, 1467763200000L));
         return statusArrayList;
     }
 }

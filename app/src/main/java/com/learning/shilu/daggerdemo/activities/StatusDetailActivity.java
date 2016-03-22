@@ -26,11 +26,11 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
     PrefConfig prefConfig;
 
     @Inject
-    @Named(Constants.LIST_COLORS)
+    @Named(Constants.Inject.LIST_COLORS)
     String[] listColors;
 
     @Inject
-    @Named(Constants.LIST_FEELS)
+    @Named(Constants.Inject.LIST_FEELS)
     String[] listFeels;
 
     private RelativeLayout rlMain;
@@ -50,8 +50,8 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        if (getIntent().hasExtra(Constants.STATUS_VALUE)) {
-            status = getIntent().getParcelableExtra(Constants.STATUS_VALUE);
+        if (getIntent().hasExtra(Constants.Inject.STATUS_VALUE)) {
+            status = getIntent().getParcelableExtra(Constants.Inject.STATUS_VALUE);
         }
         rlMain = (RelativeLayout) findViewById(R.id.rl_main_container);
 
