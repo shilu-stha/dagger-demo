@@ -14,10 +14,13 @@ import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.fragments.FirstFragment;
+import com.learning.shilu.daggerdemo.fragments.SecondFragment;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import io.realm.Realm;
 
 public class StatusDetailActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
@@ -31,6 +34,9 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
     @Inject
     @Named(Constants.Inject.LIST_FEELS)
     String[] listFeels;
+
+    @Inject
+    Realm realm;
 
     private RelativeLayout rlMain;
     private Status status;
@@ -49,8 +55,8 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        if (getIntent().hasExtra(Constants.Inject.STATUS_VALUE)) {
-            status = getIntent().getParcelableExtra(Constants.Inject.STATUS_VALUE);
+        if (getIntent().hasExtra(Constants.Inject.STATUS_ID)) {
+            status = realm.where(Status.class).equalTo("id", getIntent().getStringExtra(Constants.Inject.STATUS_ID)).findFirst();
         }
         rlMain = (RelativeLayout) findViewById(R.id.rl_main_container);
 
@@ -69,8 +75,8 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
             fragment = new FirstFragment(listFeels, status);
             onFeelingSelection(7);
         } else {
-            fragment = new FirstFragment(listFeels, status);
-//            onFeelingSelection(status.getSelectedPosition());
+            fragment = new SecondFragment(listFeels, status);
+            onFeelingSelection(status.getSelectedPosition());
         }
         getSupportFragmentManager()
                 .beginTransaction()

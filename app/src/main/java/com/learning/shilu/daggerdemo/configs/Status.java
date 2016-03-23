@@ -1,12 +1,15 @@
 package com.learning.shilu.daggerdemo.configs;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Shilu Shrestha on 3/18/2016.
  */
 public class Status extends RealmObject {
 
+    @PrimaryKey
+    private String id;
     private String status;
     private int selectedPosition;
     private long date;
@@ -41,6 +44,13 @@ public class Status extends RealmObject {
 
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getStatus() {
         return status;
@@ -64,7 +74,6 @@ public class Status extends RealmObject {
 
     public void setDate(long date) {
         this.date = date;
-        this.dateVal = Config.getDate(date);
     }
 
     public String getDateVal() {

@@ -16,15 +16,14 @@ import io.realm.RealmResults;
 /**
  * Created by Shilu Shrestha on 3/18/2016.
  */
-public class RVAdapter extends RecyclerView.Adapter<MyViewHolder>{
-    private final RealmResults<Status> realmResults
-            ;
+public class RVAdapter extends RecyclerView.Adapter<MyViewHolder> {
+    private final RealmResults<Status> realmResults;
     private final Context context;
     private String[] listColors;
 
-   public onClick onClickListener;
+    public onClick onClickListener;
 
-    public RVAdapter(Context context,RealmResults<Status> statusArrayList, String[] listColors) {
+    public RVAdapter(Context context, RealmResults<Status> statusArrayList, String[] listColors) {
         this.realmResults = statusArrayList;
         this.listColors = listColors;
         this.context = context;
@@ -38,6 +37,7 @@ public class RVAdapter extends RecyclerView.Adapter<MyViewHolder>{
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
+        System.out.println("Realm ID " + realmResults.get(position).getId());
         holder.tvStatus.setText(realmResults.get(position).getStatus());
         holder.cvItem.setBackgroundColor(Color.parseColor(listColors[realmResults.get(position).getSelectedPosition()]));
         holder.currentStatus = realmResults.get(position);

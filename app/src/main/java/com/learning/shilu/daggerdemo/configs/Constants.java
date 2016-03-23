@@ -10,7 +10,7 @@ public class Constants {
     public static final String KEY_SELECTED_POSITION = "SelectedPosition";
 
     public class Inject {
-        public static final String STATUS_VALUE = "StatusValue";
+        public static final String STATUS_ID = "StatusId";
         public static final String LIST_COLORS = "ListColors";
         public static final String LIST_FEELS = "ListFeels";
         public static final String DATE_FORMAT = "ddMMM,yy";

@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.adapters.RVAdapter;
-import com.learning.shilu.daggerdemo.configs.Config;
 import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.configs.Status;
@@ -67,7 +66,9 @@ public class MainActivity extends AppCompatActivity implements onClick {
     private RelativeLayout rlStatusContainer;
     private RecyclerView recyclerView;
     private RVAdapter adapter;
-
+    RealmResults<Status> statusRealmResults = null;
+    RealmResults<Status> todayRealmResults;
+    private Status todayStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,15 +88,27 @@ public class MainActivity extends AppCompatActivity implements onClick {
         // listColors = getResources().getStringArray(R.array.color_list);
         // listFeels = getResources().getStringArray(R.array.mood_list);
 
-        // reference saved value and update the UI
-        // sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
-        // updateStatus(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
-        updateStatus(prefConfig.getStatus());
-
         // addDummyData();
         updateRecyclerView();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("TOday date "+todaysDate);
+
+        todayRealmResults = realm.where(Status.class).equalTo("dateVal", todaysDate).findAll();
+        if (todayRealmResults.size() != 0)
+            todayStatus = todayRealmResults.first();
+
         checkDate();
+
+        // reference saved value and update the UI
+        // sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
+        // updateStatus(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
+        updateStatus();
+
     }
 
     /*private void addDummyData() {
@@ -111,15 +124,15 @@ public class MainActivity extends AppCompatActivity implements onClick {
         statusArrayList.add(new Status("You can do anything, but not everything.", 4));
     }*/
 
+
     private void updateRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        RealmResults<Status> statusRealmResults = null;
-        if(dummyEntry){
+        if (dummyEntry) {
             statusRealmResults = realm.where(Status.class).findAll();
-            System.out.println("realm "+statusRealmResults.size());
-        }else{
+            System.out.println("realm " + statusRealmResults.size());
+        } else {
 //            statusRealmResults = emptylist;
         }
         adapter = new RVAdapter(context, statusRealmResults, listColors);
@@ -130,11 +143,9 @@ public class MainActivity extends AppCompatActivity implements onClick {
 
     /**
      * Update status preview view
-     *
-     * @param newStatus
      */
-    private void updateStatus(boolean newStatus) {
-        if (newStatus) {
+    private void updateStatus() {
+        if (prefConfig.getStatus()) {
             rlStatusContainer.setBackgroundColor(Color.parseColor("#616161"));
             tvCurrentStatus.setText("You haven't entered your status today!!");
             tvFeels.setVisibility(View.GONE);
@@ -144,10 +155,16 @@ public class MainActivity extends AppCompatActivity implements onClick {
             //tvFeels.setVisibility(View.VISIBLE);
             //tvFeels.setText(listFeels[sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION, 0)]);
 
-            rlStatusContainer.setBackgroundColor(Color.parseColor(listColors[prefConfig.getSelectedPosition()]));
-            tvCurrentStatus.setText(prefConfig.getTodayStatus(""));
+            //rlStatusContainer.setBackgroundColor(Color.parseColor(listColors[prefConfig.getSelectedPosition()]));
+            // tvCurrentStatus.setText(prefConfig.getTodayStatus(""));
+            //tvFeels.setVisibility(View.VISIBLE);
+            //tvFeels.setText(listFeels[prefConfig.getSelectedPosition()]);
+
+            // Using Realm db
+            rlStatusContainer.setBackgroundColor(Color.parseColor(listColors[todayStatus.getSelectedPosition()]));
+            tvCurrentStatus.setText(todayStatus.getStatus());
+            tvFeels.setText(listFeels[todayStatus.getSelectedPosition()]);
             tvFeels.setVisibility(View.VISIBLE);
-            tvFeels.setText(listFeels[prefConfig.getSelectedPosition()]);
         }
     }
 
@@ -161,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements onClick {
             status.setDate(System.currentTimeMillis());
             status.setStatus(prefConfig.getTodayStatus(""));
             status.setSelectedPosition(prefConfig.getSelectedPosition());
-//            intent.putExtra(Constants.Inject.STATUS_VALUE, status);
+//            intent.putExtra(Constants.Inject.STATUS_ID, status);
             startActivity(intent);
         } else {
             startActivity(intent);
@@ -169,9 +186,9 @@ public class MainActivity extends AppCompatActivity implements onClick {
     }
 
     @Override
-    public void OnClick(View v, Status currentStatus) {
+    public void OnClick(View v, String id) {
         Intent intent = new Intent(MainActivity.this, StatusDetailActivity.class);
-//        intent.putExtra(Constants.Inject.STATUS_VALUE, currentStatus);
+        intent.putExtra(Constants.Inject.STATUS_ID, id);
         // Pass data object in the bundle and populate details activity.
         Pair<View, String> p1 = Pair.create(v, "status_view");
         Pair<View, String> p2 = Pair.create(v, "status_msg");
@@ -182,7 +199,8 @@ public class MainActivity extends AppCompatActivity implements onClick {
     }
 
     private void checkDate() {
-        if (todaysDate.equals(Config.getDate(System.currentTimeMillis())) && prefConfig.getStatus()) {
+        if (todayRealmResults.size() == 0) {
+            prefConfig.setStatus(true);
             System.out.println("Equal");
         }
     }

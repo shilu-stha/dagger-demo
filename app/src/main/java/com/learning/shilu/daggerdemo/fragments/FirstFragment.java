@@ -21,6 +21,8 @@ import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
+
 
 public class FirstFragment extends Fragment {
     private static final String SELECTED_POSITION = "SelectedPosition";
@@ -36,8 +38,9 @@ public class FirstFragment extends Fragment {
     @Inject
     PrefConfig prefConfig;
 
-    //    @Inject
-//    Realm realm;
+    @Inject
+    Realm realm;
+
     private long date;
 
     public FirstFragment(String[] listFeels, Status status) {
@@ -134,18 +137,21 @@ public class FirstFragment extends Fragment {
 
             date = System.currentTimeMillis();
 
-            Status status = new Status();
+
+            realm.beginTransaction();
+            Status status = realm.createObject(Status.class);
             status.setSelectedPosition(mPosition);
             status.setStatus(etCurrentStatus.getText().toString());
             status.setDate(date);
+            realm.commitTransaction();
 
 //            realm.beginTransaction();
 //            realm.copyToRealm(status);
 //            realm.commitTransaction();
 
             prefConfig.setStatus(false);
-            prefConfig.setTodayStatus(etCurrentStatus.getText().toString());
-            prefConfig.setSelectedPosition(mPosition);
+            //prefConfig.setTodayStatus(etCurrentStatus.getText().toString());
+            //prefConfig.setSelectedPosition(mPosition);
 
             if (mListener != null) {
                 mListener.onFragmentInteraction(status);
