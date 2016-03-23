@@ -9,10 +9,11 @@ import com.learning.shilu.daggerdemo.module.StatusDataModule;
  * Created by Shilu Shrestha on 3/11/2016.
  */
 public class DaggerDemoApplication extends Application {
+    private static DemoComponent component;
+    private static DaggerDemoApplication instance;
+
     // static Context context;
     // private static DaggerDemoSettings daggerSettings;
-    private static DaggerDemoApplication instance;
-    private static DemoComponent component;
 
     @Override
     public void onCreate() {
@@ -55,6 +56,5 @@ public class DaggerDemoApplication extends Application {
                     .statusDataModule(new StatusDataModule())
                     .build();
         }
-
     }
 }

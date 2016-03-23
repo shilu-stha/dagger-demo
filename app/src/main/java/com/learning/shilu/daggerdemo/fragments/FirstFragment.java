@@ -44,9 +44,7 @@ public class FirstFragment extends Fragment {
 
     private String statusId;
     private Status status = null;
-
     private int mPosition;
-
     private OnFragmentInteractionListener mListener;
     private AutoCompleteTextView etStatus;
     private EditText etCurrentStatus;
@@ -90,7 +88,7 @@ public class FirstFragment extends Fragment {
 
         mListener.onFeelingSelection(7);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_dropdown_item_1line, listFeels);
         etStatus.setAdapter(adapter);
 
@@ -155,7 +153,6 @@ public class FirstFragment extends Fragment {
 //            DaggerDemoApplication.getDaggerSettings().setSelectedPosition(mPosition);
 
             date = System.currentTimeMillis();
-
 
             realm.executeTransaction(new Realm.Transaction() {
                 @Override

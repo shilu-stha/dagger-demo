@@ -13,9 +13,8 @@ import com.learning.shilu.daggerdemo.interfaces.onClickItem;
  * Created by Shilu Shrestha on 3/18/2016.
  */
 public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    TextView tvStatus;
-    CardView cvItem;
-
+    final TextView tvStatus;
+    final CardView cvItem;
     Status currentStatus;
     onClickItem onClickItemListener;
 

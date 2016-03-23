@@ -21,16 +21,6 @@ import io.realm.Realm;
 @Module
 public class StatusDataModule {
 
-    private Resources resources;
-
-    /*StatusDataModule(Resources resources) {
-        this.resources = resources;
-    }
-
-    public static StatusDataModule getInstance(Resources resources) {
-        return new StatusDataModule(resources);
-    }*/
-
     @Provides
     @Named(Constants.Inject.LIST_COLORS)
     public String[] provideColorsList(Resources resources) {
@@ -116,9 +106,7 @@ public class StatusDataModule {
                     status8.setDateVal(Config.getDate(status8.getDate()));
                 }
             });
-            return true;
-        } else {
-            return true;
         }
+        return true;
     }
 }

@@ -15,35 +15,6 @@ public class Status extends RealmObject {
     private long date;
     private String dateVal;
 
-    public Status(String status, int selectedPosition, long date) {
-        this.status = status;
-        this.selectedPosition = selectedPosition;
-        this.date = date;
-        this.dateVal = Config.getDate(date);
-    }
-
-    /*protected Status(Parcel in) {
-        status = in.readString();
-        selectedPosition = in.readInt();
-        date = in.readLong();
-    }
-
-    public static final Creator<Status> CREATOR = new Creator<Status>() {
-        @Override
-        public Status createFromParcel(Parcel in) {
-            return new Status(in);
-        }
-
-        @Override
-        public Status[] newArray(int size) {
-            return new Status[size];
-        }
-    };*/
-
-    public Status() {
-
-    }
-
     public String getId() {
         return id;
     }
@@ -84,15 +55,4 @@ public class Status extends RealmObject {
         this.dateVal = dateVal;
     }
 
-    /*@Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(status);
-        dest.writeInt(selectedPosition);
-        dest.writeLong(date);
-    }*/
 }

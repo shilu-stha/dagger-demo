@@ -19,7 +19,7 @@ import io.realm.RealmResults;
 public class RVAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private final RealmResults<Status> realmResults;
     private final Context context;
-    private String[] listColors;
+    private final String[] listColors;
 
     public onClickItem onClickItemListener;
 
@@ -47,5 +47,4 @@ public class RVAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public int getItemCount() {
         return realmResults.size();
     }
-
 }
