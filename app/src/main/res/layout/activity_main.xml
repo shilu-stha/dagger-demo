@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.25"
-        android:onClick="onClick">
+        android:onClick="onClick"
+        android:transitionName="status_view">
 
         <TextView
             android:id="@+id/tv_status"
@@ -18,7 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textColor="#ffffff" />
+            android:textColor="@android:color/white"
+            android:transitionName="status_msg" />
 
         <TextView
             android:id="@+id/tv_mood"
@@ -26,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_status"
             android:gravity="center"
-            android:textColor="#ffffff"
+            android:textColor="@android:color/white"
             android:textSize="12sp" />
     </RelativeLayout>
 

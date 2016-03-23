@@ -49,10 +49,7 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
         DaggerDemoApplication.getComponent().inject(this);
 
         // setup toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setupToolbar();
 
         if (getIntent().hasExtra(Constants.Inject.STATUS_ID)) {
             statusId = getIntent().getStringExtra(Constants.Inject.STATUS_ID);
@@ -62,13 +59,22 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
         // listColors = getResources().getStringArray(R.array.color_list);
         // listFeels = getResources().getStringArray(R.array.mood_list);
 
-//        sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
-//        switchFragment(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
+        // sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
+        // switchFragment(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
 
         if (statusId == null) {
             switchFragment(Constants.TO_FIRST_FRAGMENT);
         } else {
             switchFragment(Constants.TO_SECOND_FRAGMENT);
+        }
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -95,5 +101,4 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
     public void onFeelingSelection(int mPosition) {
         rlMain.setBackgroundColor(Color.parseColor(listColors[mPosition]));
     }
-
 }

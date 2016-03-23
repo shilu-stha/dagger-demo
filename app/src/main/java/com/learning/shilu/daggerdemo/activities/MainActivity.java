@@ -1,5 +1,6 @@
 package com.learning.shilu.daggerdemo.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -35,9 +36,6 @@ public class MainActivity extends AppCompatActivity implements onClickItem {
     @Inject
     Context context;
 
-//    @Inject
-//    ArrayList<Status> statusArrayList;
-
     @Inject
     @Named(Constants.Inject.LIST_COLORS)
     String[] listColors;
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements onClickItem {
 
     @Inject
     @Named(Constants.Inject.TODAYS_DATE)
-    String todaysDate;
+    String todayDate;
 
     @Inject
     @Named(Constants.Inject.DUMMY_ENTRY)
@@ -65,9 +63,8 @@ public class MainActivity extends AppCompatActivity implements onClickItem {
     private TextView tvCurrentStatus;
     private RelativeLayout rlStatusContainer;
     private RecyclerView recyclerView;
-    private RVAdapter adapter;
-    RealmResults<Status> statusRealmResults = null;
-    RealmResults<Status> todayRealmResults;
+    private RealmResults<Status> statusRealmResults;
+    private RealmResults<Status> todayRealmResults;
     private Status todayStatus;
 
     @Override
@@ -101,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements onClickItem {
     protected void onResume() {
         super.onResume();
 
-        todayRealmResults = realm.where(Status.class).equalTo("dateVal", todaysDate).findAll();
+        todayRealmResults = realm.where(Status.class).equalTo("dateVal", todayDate).findAll();
         if (todayRealmResults.size() != 0) {
             todayStatus = todayRealmResults.first();
         }
@@ -135,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements onClickItem {
             // enter empty value
             // statusRealmResults = emptylist;
         }
-        adapter = new RVAdapter(context, statusRealmResults, listColors);
+        RVAdapter adapter = new RVAdapter(context, statusRealmResults, listColors);
         adapter.onClickItemListener = this;
         recyclerView.setAdapter(adapter);
     }
@@ -144,17 +141,20 @@ public class MainActivity extends AppCompatActivity implements onClickItem {
     /**
      * Update status preview view
      */
+    @SuppressLint("SetTextI18n")
     private void updateStatus() {
         if (prefConfig.getStatus()) {
             rlStatusContainer.setBackgroundColor(Color.parseColor("#616161"));
-            tvCurrentStatus.setText("You haven't entered your status today!!");
+            tvCurrentStatus.setText(R.string.no_status_message);
             tvFeels.setVisibility(View.GONE);
         } else {
+            // Using SharedPreference
             //rlStatusContainer.setBackgroundColor(Color.parseColor(listColors[sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION, 0)]));
             //tvCurrentStatus.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));
             //tvFeels.setVisibility(View.VISIBLE);
             //tvFeels.setText(listFeels[sharedPreferences.getInt(Constants.KEY_SELECTED_POSITION, 0)]);
 
+            // Using a static class reference
             //rlStatusContainer.setBackgroundColor(Color.parseColor(listColors[prefConfig.getSelectedPosition()]));
             // tvCurrentStatus.setText(prefConfig.getTodayStatus(""));
             //tvFeels.setVisibility(View.VISIBLE);
@@ -174,7 +174,13 @@ public class MainActivity extends AppCompatActivity implements onClickItem {
         if (!prefConfig.getStatus()) {
             intent.putExtra(Constants.Inject.STATUS_ID, todayStatus.getId());
         }
-        startActivity(intent);
+        // Pass data object in the bundle and populate details activity.
+        Pair<View, String> p1 = Pair.create(view, "status_view");
+        Pair<View, String> p2 = Pair.create(view, "status_msg");
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this, p1, p2);
+        startActivity(intent, options.toBundle());
     }
 
     @Override

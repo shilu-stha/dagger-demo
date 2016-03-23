@@ -5,7 +5,7 @@
     <string name="first_fragment_message">What\'s in your mind??</string>
     <string name="first_fragment_message2">Want to change your status??</string>
     <string name="second_fragment_message">Is this how you feel??</string>
-    <string name="title_activity_status_list">StatusListActivity</string>
+    <string name="no_status_message">"You haven't entered your status today!!"</string>
 
     <string-array name="color_list">
         <item>#CDDC39</item>
@@ -28,7 +28,4 @@
         <item>Positive</item>
     </string-array>
     <string name="title_activity_status_detail">StatusDetailActivity</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
