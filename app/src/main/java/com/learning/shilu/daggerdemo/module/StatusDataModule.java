@@ -3,7 +3,7 @@ package com.learning.shilu.daggerdemo.module;
 import android.content.res.Resources;
 
 import com.learning.shilu.daggerdemo.R;
-import com.learning.shilu.daggerdemo.Status;
+import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.configs.Constants;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.learning.shilu.daggerdemo.interfaces;
 
-import com.learning.shilu.daggerdemo.Status;
+import com.learning.shilu.daggerdemo.configs.Status;
 
 /**
  * This interface must be implemented by activities that contain this

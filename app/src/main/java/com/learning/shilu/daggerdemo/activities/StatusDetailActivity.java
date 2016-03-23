@@ -10,11 +10,10 @@ import android.widget.RelativeLayout;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
-import com.learning.shilu.daggerdemo.Status;
 import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
+import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.fragments.FirstFragment;
-import com.learning.shilu.daggerdemo.fragments.SecondFragment;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 import javax.inject.Inject;
@@ -64,19 +63,14 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
         switchFragment(status);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     private void switchFragment(Status newStatus) {
         Fragment fragment;
         if (newStatus == null) {
             fragment = new FirstFragment(listFeels, status);
             onFeelingSelection(7);
         } else {
-            fragment = new SecondFragment(listFeels, status);
-            onFeelingSelection(status.getSelectedPosition());
+            fragment = new FirstFragment(listFeels, status);
+//            onFeelingSelection(status.getSelectedPosition());
         }
         getSupportFragmentManager()
                 .beginTransaction()

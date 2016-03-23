@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
-import com.learning.shilu.daggerdemo.RVAdapter;
-import com.learning.shilu.daggerdemo.Status;
+import com.learning.shilu.daggerdemo.adapters.RVAdapter;
+import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.configs.Config;
 import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;

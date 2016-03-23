@@ -47,7 +47,6 @@
         android:layout_margin="10dp"
         android:backgroundTint="@color/colorAccent"
         android:elevation="12dp"
-        android:onClick="saveStatus"
         android:src="@drawable/ic_done" />
 
 </FrameLayout>

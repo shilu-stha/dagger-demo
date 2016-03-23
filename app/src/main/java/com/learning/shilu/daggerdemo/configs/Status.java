@@ -1,9 +1,7 @@
-package com.learning.shilu.daggerdemo;
+package com.learning.shilu.daggerdemo.configs;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.learning.shilu.daggerdemo.configs.Config;
 
 /**
  * Created by Shilu Shrestha on 3/18/2016.

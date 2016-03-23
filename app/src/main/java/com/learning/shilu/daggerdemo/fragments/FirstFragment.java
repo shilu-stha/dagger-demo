@@ -15,8 +15,8 @@ import android.widget.EditText;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
-import com.learning.shilu.daggerdemo.Status;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
+import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 import javax.inject.Inject;
@@ -36,7 +36,7 @@ public class FirstFragment extends Fragment {
     @Inject
     PrefConfig prefConfig;
 
-//    @Inject
+    //    @Inject
 //    Realm realm;
     private long date;
 

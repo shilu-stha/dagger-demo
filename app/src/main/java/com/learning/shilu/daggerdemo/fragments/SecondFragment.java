@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
-import com.learning.shilu.daggerdemo.Status;
+import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.configs.DaggerDemoSettings;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
@@ -66,8 +66,8 @@ public class SecondFragment extends Fragment {
             status = new Status(status.getStatus(), prefConfig.getSelectedPosition(), status.getDate());
         }
 
-//        tvStatus.setText(listFeels[status.getSelectedPosition()]);
-//        tvCurrent.setText(status.getStatus());
+        tvStatus.setText(listFeels[status.getSelectedPosition()]);
+        tvCurrent.setText(status.getStatus());
 
 //            sharedPreferences = getContext().getSharedPreferences(Constants.PREF_NAME, getContext().MODE_PRIVATE);
 //            tvStatus.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));

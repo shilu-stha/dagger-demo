@@ -1,10 +1,12 @@
-package com.learning.shilu.daggerdemo;
+package com.learning.shilu.daggerdemo.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.learning.shilu.daggerdemo.R;
+import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.interfaces.onClick;
 
 /**
