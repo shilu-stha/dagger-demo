@@ -8,13 +8,13 @@
     <string name="no_status_message">"You haven't entered your status today!!"</string>
 
     <string-array name="color_list">
-        <item>#CDDC39</item>
-        <item>#7B1FA2</item>
+        <item>#ACECA1</item>
+        <item>#C1C1C1</item>
         <item>#00BCD4</item>
-        <item>#1976D2</item>
-        <item>#FFEB3B</item>
-        <item>#FF5722</item>
-        <item>#FF4081</item>
+        <item>#03CEA4</item>
+        <item>#E9D758</item>
+        <item>#F49D6E</item>
+        <item>#FFE8E1</item>
         <item>#616161</item>
     </string-array>
 
