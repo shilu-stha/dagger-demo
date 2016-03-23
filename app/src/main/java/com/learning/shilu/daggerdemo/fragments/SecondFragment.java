@@ -11,19 +11,25 @@ import android.widget.TextView;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
-import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.configs.DaggerDemoSettings;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
+import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
+
 public class SecondFragment extends Fragment {
     private static String[] listFeels;
+    private String statusId;
     private Status status;
 
     @Inject
     PrefConfig prefConfig;
+
+    @Inject
+    Realm realm;
 
 //    @Inject
 //    PreferencesModule preferencesModule;
@@ -37,12 +43,10 @@ public class SecondFragment extends Fragment {
     public SecondFragment() {
     }
 
-    public SecondFragment(String[] listFeels, Status status) {
+    public SecondFragment(String[] listFeels, String statusId) {
         // Required empty public constructor
         this.listFeels = listFeels;
-        if (status != null) {
-            this.status = status;
-        }
+        this.statusId = statusId;
     }
 
     @Override
@@ -50,6 +54,9 @@ public class SecondFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // inject dagger
         DaggerDemoApplication.getComponent().inject(this);
+        if (statusId != null) {
+            status = realm.where(Status.class).equalTo("id", statusId).findFirst();
+        }
     }
 
     @Override
@@ -62,12 +69,11 @@ public class SecondFragment extends Fragment {
         TextView tvCurrent = (TextView) view.findViewById(R.id.tv_current_status);
         FloatingActionButton btn = (FloatingActionButton) view.findViewById(R.id.btn_change);
 
-        if (status == null) {
-            status = new Status(status.getStatus(), prefConfig.getSelectedPosition(), status.getDate());
+        if (status != null) {
+            tvStatus.setText(listFeels[status.getSelectedPosition()]);
+            tvCurrent.setText(status.getStatus());
+            mListener.onFeelingSelection(status.getSelectedPosition());
         }
-
-        tvStatus.setText(listFeels[status.getSelectedPosition()]);
-        tvCurrent.setText(status.getStatus());
 
 //            sharedPreferences = getContext().getSharedPreferences(Constants.PREF_NAME, getContext().MODE_PRIVATE);
 //            tvStatus.setText(sharedPreferences.getString(Constants.KEY_TODAY_STATUS, ""));

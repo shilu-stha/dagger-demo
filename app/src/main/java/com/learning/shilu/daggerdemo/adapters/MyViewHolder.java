@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.configs.Status;
-import com.learning.shilu.daggerdemo.interfaces.onClick;
+import com.learning.shilu.daggerdemo.interfaces.onClickItem;
 
 /**
  * Created by Shilu Shrestha on 3/18/2016.
@@ -17,7 +17,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClic
     CardView cvItem;
 
     Status currentStatus;
-    onClick onClickListener;
+    onClickItem onClickItemListener;
 
     public MyViewHolder(View itemView) {
         super(itemView);
@@ -28,6 +28,6 @@ public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        onClickListener.OnClick(v, currentStatus.getId());
+        onClickItemListener.onClickItem(v, currentStatus.getId());
     }
 }

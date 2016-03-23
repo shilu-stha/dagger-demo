@@ -15,9 +15,12 @@ import android.widget.EditText;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
+import com.learning.shilu.daggerdemo.configs.Config;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
+
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -27,6 +30,7 @@ import io.realm.Realm;
 public class FirstFragment extends Fragment {
     private static final String SELECTED_POSITION = "SelectedPosition";
     private static String[] listFeels = new String[20];
+    private final String statusId;
     private Status status = null;
 
     private int mPosition;
@@ -43,11 +47,9 @@ public class FirstFragment extends Fragment {
 
     private long date;
 
-    public FirstFragment(String[] listFeels, Status status) {
+    public FirstFragment(String[] listFeels, String statusId) {
         this.listFeels = listFeels;
-        if (status != null) {
-            this.status = status;
-        }
+        this.statusId = statusId;
     }
 
     @Override
@@ -56,10 +58,6 @@ public class FirstFragment extends Fragment {
 
         // inject dagger
         DaggerDemoApplication.getComponent().inject(this);
-
-        if (getArguments() != null) {
-            mPosition = getArguments().getInt(SELECTED_POSITION);
-        }
     }
 
     @Override
@@ -70,6 +68,8 @@ public class FirstFragment extends Fragment {
 
         etStatus = (AutoCompleteTextView) view.findViewById(R.id.et_status);
         etCurrentStatus = (EditText) view.findViewById(R.id.et_current_status);
+
+        mListener.onFeelingSelection(7);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_dropdown_item_1line, listFeels);
@@ -138,23 +138,24 @@ public class FirstFragment extends Fragment {
             date = System.currentTimeMillis();
 
 
-            realm.beginTransaction();
-            Status status = realm.createObject(Status.class);
-            status.setSelectedPosition(mPosition);
-            status.setStatus(etCurrentStatus.getText().toString());
-            status.setDate(date);
-            realm.commitTransaction();
-
-//            realm.beginTransaction();
-//            realm.copyToRealm(status);
-//            realm.commitTransaction();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    status = realm.createObject(Status.class);
+                    status.setId(UUID.randomUUID().toString());
+                    status.setSelectedPosition(mPosition);
+                    status.setStatus(etCurrentStatus.getText().toString());
+                    status.setDate(date);
+                    status.setDateVal(Config.getDate(date));
+                }
+            });
 
             prefConfig.setStatus(false);
             //prefConfig.setTodayStatus(etCurrentStatus.getText().toString());
             //prefConfig.setSelectedPosition(mPosition);
 
             if (mListener != null) {
-                mListener.onFragmentInteraction(status);
+                mListener.onFragmentInteraction(status.getId());
             }
         }
     }

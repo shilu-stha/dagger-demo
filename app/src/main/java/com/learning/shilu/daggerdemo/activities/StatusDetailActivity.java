@@ -12,7 +12,6 @@ import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
-import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.fragments.FirstFragment;
 import com.learning.shilu.daggerdemo.fragments.SecondFragment;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
@@ -39,7 +38,7 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
     Realm realm;
 
     private RelativeLayout rlMain;
-    private Status status;
+    private String statusId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (getIntent().hasExtra(Constants.Inject.STATUS_ID)) {
-            status = realm.where(Status.class).equalTo("id", getIntent().getStringExtra(Constants.Inject.STATUS_ID)).findFirst();
+            statusId = getIntent().getStringExtra(Constants.Inject.STATUS_ID);
         }
         rlMain = (RelativeLayout) findViewById(R.id.rl_main_container);
 
@@ -66,17 +65,15 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
 //        sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
 //        switchFragment(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
 
-        switchFragment(status);
+        switchFragment();
     }
 
-    private void switchFragment(Status newStatus) {
+    private void switchFragment() {
         Fragment fragment;
-        if (newStatus == null) {
-            fragment = new FirstFragment(listFeels, status);
-            onFeelingSelection(7);
+        if (statusId == null) {
+            fragment = new FirstFragment(listFeels, statusId);
         } else {
-            fragment = new SecondFragment(listFeels, status);
-            onFeelingSelection(status.getSelectedPosition());
+            fragment = new SecondFragment(listFeels, statusId);
         }
         getSupportFragmentManager()
                 .beginTransaction()
@@ -85,8 +82,9 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
     }
 
     @Override
-    public void onFragmentInteraction(Status status) {
-        switchFragment(status);
+    public void onFragmentInteraction(String statusId) {
+        this.statusId = statusId;
+        switchFragment();
     }
 
     @Override

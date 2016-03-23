@@ -9,7 +9,7 @@ import java.util.Date;
 public class Config {
     public static String getDate(long date1) {
         Date date = new Date(date1);
-        SimpleDateFormat df2 = new SimpleDateFormat("ddMMM,yy");
+        SimpleDateFormat df2 = new SimpleDateFormat("ddMMM yy");
         System.out.println("Converted Date "+df2.format(date));
         return df2.format(date);
     }

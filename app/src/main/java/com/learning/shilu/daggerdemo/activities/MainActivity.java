@@ -19,7 +19,7 @@ import com.learning.shilu.daggerdemo.adapters.RVAdapter;
 import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.configs.Status;
-import com.learning.shilu.daggerdemo.interfaces.onClick;
+import com.learning.shilu.daggerdemo.interfaces.onClickItem;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,7 +27,7 @@ import javax.inject.Named;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity implements onClick {
+public class MainActivity extends AppCompatActivity implements onClickItem {
 
     @Inject
     PrefConfig prefConfig;
@@ -84,6 +84,12 @@ public class MainActivity extends AppCompatActivity implements onClick {
         rlStatusContainer = (RelativeLayout) findViewById(R.id.rl_status_container);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
+        // reference saved value and update the UI
+        // sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
+        // updateStatus(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
+
+        updateStatus();
+
         // populate lists
         // listColors = getResources().getStringArray(R.array.color_list);
         // listFeels = getResources().getStringArray(R.array.mood_list);
@@ -96,19 +102,13 @@ public class MainActivity extends AppCompatActivity implements onClick {
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("TOday date "+todaysDate);
 
         todayRealmResults = realm.where(Status.class).equalTo("dateVal", todaysDate).findAll();
-        if (todayRealmResults.size() != 0)
+        if (todayRealmResults.size() != 0) {
             todayStatus = todayRealmResults.first();
+        }
 
         checkDate();
-
-        // reference saved value and update the UI
-        // sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
-        // updateStatus(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
-        updateStatus();
-
     }
 
     /*private void addDummyData() {
@@ -131,15 +131,16 @@ public class MainActivity extends AppCompatActivity implements onClick {
 
         if (dummyEntry) {
             statusRealmResults = realm.where(Status.class).findAll();
-            System.out.println("realm " + statusRealmResults.size());
+            statusRealmResults.sort("dateVal");
         } else {
-//            statusRealmResults = emptylist;
+            // enter empty value
+            // statusRealmResults = emptylist;
         }
         adapter = new RVAdapter(context, statusRealmResults, listColors);
-
-        adapter.onClickListener = this;
+        adapter.onClickItemListener = this;
         recyclerView.setAdapter(adapter);
     }
+
 
     /**
      * Update status preview view
@@ -171,22 +172,14 @@ public class MainActivity extends AppCompatActivity implements onClick {
 
     public void onClick(View view) {
         Intent intent = new Intent(MainActivity.this, StatusDetailActivity.class);
-//        String date = Status.getDate(System.currentTimeMillis());
-//        Status status = realm.where(Status.class).equalTo("dateVal", date).findFirst();
-        if (prefConfig.getStatus() != null) {
-            Status status = new Status();
-            status.setDate(System.currentTimeMillis());
-            status.setStatus(prefConfig.getTodayStatus(""));
-            status.setSelectedPosition(prefConfig.getSelectedPosition());
-//            intent.putExtra(Constants.Inject.STATUS_ID, status);
-            startActivity(intent);
-        } else {
-            startActivity(intent);
+        if (!prefConfig.getStatus()) {
+            intent.putExtra(Constants.Inject.STATUS_ID, todayStatus.getId());
         }
+        startActivity(intent);
     }
 
     @Override
-    public void OnClick(View v, String id) {
+    public void onClickItem(View v, String id) {
         Intent intent = new Intent(MainActivity.this, StatusDetailActivity.class);
         intent.putExtra(Constants.Inject.STATUS_ID, id);
         // Pass data object in the bundle and populate details activity.
@@ -201,7 +194,8 @@ public class MainActivity extends AppCompatActivity implements onClick {
     private void checkDate() {
         if (todayRealmResults.size() == 0) {
             prefConfig.setStatus(true);
-            System.out.println("Equal");
+        } else {
+            prefConfig.setStatus(false);
         }
     }
 }

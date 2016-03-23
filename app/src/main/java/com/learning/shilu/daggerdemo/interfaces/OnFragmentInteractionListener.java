@@ -1,7 +1,5 @@
 package com.learning.shilu.daggerdemo.interfaces;
 
-import com.learning.shilu.daggerdemo.configs.Status;
-
 /**
  * This interface must be implemented by activities that contain this
  * fragment to allow an interaction in this fragment to be communicated
@@ -13,7 +11,7 @@ import com.learning.shilu.daggerdemo.configs.Status;
  * >Communicating with Other Fragments</a> for more information.
  */
 public interface OnFragmentInteractionListener {
-    void onFragmentInteraction(Status status);
+    void onFragmentInteraction(String statusId);
 
     void onFeelingSelection(int mPosition);
 }

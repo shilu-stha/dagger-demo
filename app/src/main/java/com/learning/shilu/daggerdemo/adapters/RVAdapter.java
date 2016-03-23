@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.configs.Status;
-import com.learning.shilu.daggerdemo.interfaces.onClick;
+import com.learning.shilu.daggerdemo.interfaces.onClickItem;
 
 import io.realm.RealmResults;
 
@@ -21,7 +21,7 @@ public class RVAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private final Context context;
     private String[] listColors;
 
-    public onClick onClickListener;
+    public onClickItem onClickItemListener;
 
     public RVAdapter(Context context, RealmResults<Status> statusArrayList, String[] listColors) {
         this.realmResults = statusArrayList;
@@ -37,11 +37,10 @@ public class RVAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        System.out.println("Realm ID " + realmResults.get(position).getId());
         holder.tvStatus.setText(realmResults.get(position).getStatus());
         holder.cvItem.setBackgroundColor(Color.parseColor(listColors[realmResults.get(position).getSelectedPosition()]));
         holder.currentStatus = realmResults.get(position);
-        holder.onClickListener = onClickListener;
+        holder.onClickItemListener = onClickItemListener;
     }
 
     @Override
