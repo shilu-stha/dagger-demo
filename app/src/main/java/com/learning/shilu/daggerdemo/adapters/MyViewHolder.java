@@ -28,7 +28,6 @@ public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        System.out.println("Status "+currentStatus.getStatus());
         onClickListener.OnClick(v, currentStatus);
     }
 }

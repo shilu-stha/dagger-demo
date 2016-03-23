@@ -1,12 +1,11 @@
 package com.learning.shilu.daggerdemo.configs;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import io.realm.RealmObject;
 
 /**
  * Created by Shilu Shrestha on 3/18/2016.
  */
-public class Status implements Parcelable {
+public class Status extends RealmObject {
 
     private String status;
     private int selectedPosition;
@@ -20,7 +19,7 @@ public class Status implements Parcelable {
         this.dateVal = Config.getDate(date);
     }
 
-    protected Status(Parcel in) {
+    /*protected Status(Parcel in) {
         status = in.readString();
         selectedPosition = in.readInt();
         date = in.readLong();
@@ -36,7 +35,7 @@ public class Status implements Parcelable {
         public Status[] newArray(int size) {
             return new Status[size];
         }
-    };
+    };*/
 
     public Status() {
 
@@ -76,7 +75,7 @@ public class Status implements Parcelable {
         this.dateVal = dateVal;
     }
 
-    @Override
+    /*@Override
     public int describeContents() {
         return 0;
     }
@@ -86,5 +85,5 @@ public class Status implements Parcelable {
         dest.writeString(status);
         dest.writeInt(selectedPosition);
         dest.writeLong(date);
-    }
+    }*/
 }

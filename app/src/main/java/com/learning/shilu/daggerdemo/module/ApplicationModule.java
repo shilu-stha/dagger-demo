@@ -14,6 +14,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by Shilu Shrestha on 3/14/2016.
@@ -56,14 +58,14 @@ public class ApplicationModule {
         return context.getResources();
     }
 
-//    @Provides
-//    @Singleton
-//    public Realm provideRealm(Context context) {
-//         Create a RealmConfiguration which is to locate Realm file in package's "files" directory.
-//        RealmConfiguration realmConfig = new RealmConfiguration.Builder(context).build();
-//         Get a Realm instance for this thread
-//        return Realm.getInstance(realmConfig);
-//    }
+    @Provides
+    @Singleton
+    public Realm provideRealm(Context context) {
+        //Create a RealmConfiguration which is to locate Realm file in package's "files" directory.
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(context).build();
+        //Get a Realm instance for this thread
+        return Realm.getInstance(realmConfig);
+    }
 
     @Provides
     @Named(Constants.Inject.TODAYS_DATE)

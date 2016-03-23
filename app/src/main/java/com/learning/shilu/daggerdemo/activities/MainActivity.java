@@ -16,16 +16,17 @@ import android.widget.TextView;
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.adapters.RVAdapter;
-import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.configs.Config;
 import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
+import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.interfaces.onClick;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity implements onClick {
 
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity implements onClick {
     @Inject
     Context context;
 
-    @Inject
-    ArrayList<Status> statusArrayList;
+//    @Inject
+//    ArrayList<Status> statusArrayList;
 
     @Inject
     @Named(Constants.Inject.LIST_COLORS)
@@ -46,12 +47,16 @@ public class MainActivity extends AppCompatActivity implements onClick {
     @Named(Constants.Inject.LIST_FEELS)
     String[] listFeels;
 
-//    @Inject
-//    Realm realm;
+    @Inject
+    Realm realm;
 
     @Inject
     @Named(Constants.Inject.TODAYS_DATE)
     String todaysDate;
+
+    @Inject
+    @Named(Constants.Inject.DUMMY_ENTRY)
+    Boolean dummyEntry;
 
     // private ArrayList<Status> statusArrayList = new ArrayList<>();
     // private String[] listColors;
@@ -93,8 +98,6 @@ public class MainActivity extends AppCompatActivity implements onClick {
         checkDate();
     }
 
-
-
     /*private void addDummyData() {
         statusArrayList.clear();
         statusArrayList.add(new Status("Discipline is just choosing between what you want now and what you want most.", 3));
@@ -111,7 +114,16 @@ public class MainActivity extends AppCompatActivity implements onClick {
     private void updateRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RVAdapter(context, statusArrayList, listColors);
+
+        RealmResults<Status> statusRealmResults = null;
+        if(dummyEntry){
+            statusRealmResults = realm.where(Status.class).findAll();
+            System.out.println("realm "+statusRealmResults.size());
+        }else{
+//            statusRealmResults = emptylist;
+        }
+        adapter = new RVAdapter(context, statusRealmResults, listColors);
+
         adapter.onClickListener = this;
         recyclerView.setAdapter(adapter);
     }
@@ -149,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements onClick {
             status.setDate(System.currentTimeMillis());
             status.setStatus(prefConfig.getTodayStatus(""));
             status.setSelectedPosition(prefConfig.getSelectedPosition());
-            intent.putExtra(Constants.Inject.STATUS_VALUE, status);
+//            intent.putExtra(Constants.Inject.STATUS_VALUE, status);
             startActivity(intent);
         } else {
             startActivity(intent);
@@ -159,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements onClick {
     @Override
     public void OnClick(View v, Status currentStatus) {
         Intent intent = new Intent(MainActivity.this, StatusDetailActivity.class);
-        intent.putExtra(Constants.Inject.STATUS_VALUE, currentStatus);
+//        intent.putExtra(Constants.Inject.STATUS_VALUE, currentStatus);
         // Pass data object in the bundle and populate details activity.
         Pair<View, String> p1 = Pair.create(v, "status_view");
         Pair<View, String> p2 = Pair.create(v, "status_msg");

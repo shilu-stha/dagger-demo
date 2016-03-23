@@ -47,5 +47,5 @@ dependencies {
     compile 'org.mockito:mockito-core:2.0.43-beta'
 
     // Realm
-//    compile 'io.realm:realm-android:0.84.1'
+    compile 'io.realm:realm-android:0.84.1'
 }
