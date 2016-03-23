@@ -65,15 +65,19 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
 //        sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
 //        switchFragment(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
 
-        switchFragment();
+        if (statusId == null) {
+            switchFragment(Constants.TO_FIRST_FRAGMENT);
+        } else {
+            switchFragment(Constants.TO_SECOND_FRAGMENT);
+        }
     }
 
-    private void switchFragment() {
+    private void switchFragment(String toFirstFragment) {
         Fragment fragment;
-        if (statusId == null) {
-            fragment = new FirstFragment(listFeels, statusId);
+        if (toFirstFragment.equals(Constants.TO_FIRST_FRAGMENT)) {
+            fragment = FirstFragment.newInstance(statusId);
         } else {
-            fragment = new SecondFragment(listFeels, statusId);
+            fragment = SecondFragment.newInstance(statusId);
         }
         getSupportFragmentManager()
                 .beginTransaction()
@@ -82,9 +86,9 @@ public class StatusDetailActivity extends AppCompatActivity implements OnFragmen
     }
 
     @Override
-    public void onFragmentInteraction(String statusId) {
+    public void onFragmentInteraction(String toFirstFragment, String statusId) {
         this.statusId = statusId;
-        switchFragment();
+        switchFragment(toFirstFragment);
     }
 
     @Override

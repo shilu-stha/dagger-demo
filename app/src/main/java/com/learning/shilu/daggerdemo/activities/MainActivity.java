@@ -88,8 +88,6 @@ public class MainActivity extends AppCompatActivity implements onClickItem {
         // sharedPreferences = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE);
         // updateStatus(sharedPreferences.getBoolean(Constants.KEY_STATUS, true));
 
-        updateStatus();
-
         // populate lists
         // listColors = getResources().getStringArray(R.array.color_list);
         // listFeels = getResources().getStringArray(R.array.mood_list);
@@ -109,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements onClickItem {
         }
 
         checkDate();
+        updateStatus();
     }
 
     /*private void addDummyData() {

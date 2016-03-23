@@ -11,7 +11,7 @@ package com.learning.shilu.daggerdemo.interfaces;
  * >Communicating with Other Fragments</a> for more information.
  */
 public interface OnFragmentInteractionListener {
-    void onFragmentInteraction(String statusId);
+    void onFragmentInteraction(String toFirstFragment, String statusId);
 
     void onFeelingSelection(int mPosition);
 }

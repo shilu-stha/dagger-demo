@@ -16,6 +16,7 @@ import android.widget.EditText;
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
 import com.learning.shilu.daggerdemo.configs.Config;
+import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
@@ -23,21 +24,13 @@ import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.realm.Realm;
 
 
 public class FirstFragment extends Fragment {
-    private static final String SELECTED_POSITION = "SelectedPosition";
-    private static String[] listFeels = new String[20];
-    private final String statusId;
-    private Status status = null;
-
-    private int mPosition;
-
-    private OnFragmentInteractionListener mListener;
-    private AutoCompleteTextView etStatus;
-    private EditText etCurrentStatus;
+    private static final String STATUS_ID = "StatusId";
 
     @Inject
     PrefConfig prefConfig;
@@ -45,11 +38,26 @@ public class FirstFragment extends Fragment {
     @Inject
     Realm realm;
 
+    @Inject
+    @Named(Constants.Inject.LIST_FEELS)
+    String[] listFeels;
+
+    private String statusId;
+    private Status status = null;
+
+    private int mPosition;
+
+    private OnFragmentInteractionListener mListener;
+    private AutoCompleteTextView etStatus;
+    private EditText etCurrentStatus;
     private long date;
 
-    public FirstFragment(String[] listFeels, String statusId) {
-        this.listFeels = listFeels;
-        this.statusId = statusId;
+    public static FirstFragment newInstance(String statusId) {
+        FirstFragment fragment = new FirstFragment();
+        Bundle args = new Bundle();
+        args.putString(STATUS_ID, statusId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -58,6 +66,12 @@ public class FirstFragment extends Fragment {
 
         // inject dagger
         DaggerDemoApplication.getComponent().inject(this);
+        if (getArguments() != null) {
+            statusId = getArguments().getString(STATUS_ID);
+            if (statusId != null) {
+                status = realm.where(Status.class).equalTo("id", statusId).findFirst();
+            }
+        }
     }
 
     @Override
@@ -68,6 +82,11 @@ public class FirstFragment extends Fragment {
 
         etStatus = (AutoCompleteTextView) view.findViewById(R.id.et_status);
         etCurrentStatus = (EditText) view.findViewById(R.id.et_current_status);
+
+        if (statusId != null) {
+            etCurrentStatus.setText(status.getStatus());
+            etStatus.setText(listFeels[status.getSelectedPosition()]);
+        }
 
         mListener.onFeelingSelection(7);
 
@@ -141,12 +160,14 @@ public class FirstFragment extends Fragment {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    status = realm.createObject(Status.class);
-                    status.setId(UUID.randomUUID().toString());
+                    if (statusId == null) {
+                        status = realm.createObject(Status.class);
+                        status.setId(UUID.randomUUID().toString());
+                        status.setDate(date);
+                        status.setDateVal(Config.getDate(date));
+                    }
                     status.setSelectedPosition(mPosition);
                     status.setStatus(etCurrentStatus.getText().toString());
-                    status.setDate(date);
-                    status.setDateVal(Config.getDate(date));
                 }
             });
 
@@ -155,7 +176,7 @@ public class FirstFragment extends Fragment {
             //prefConfig.setSelectedPosition(mPosition);
 
             if (mListener != null) {
-                mListener.onFragmentInteraction(status.getId());
+                mListener.onFragmentInteraction(Constants.TO_SECOND_FRAGMENT, status.getId());
             }
         }
     }

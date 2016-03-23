@@ -11,25 +11,29 @@ import android.widget.TextView;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
 import com.learning.shilu.daggerdemo.R;
+import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.DaggerDemoSettings;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
 import com.learning.shilu.daggerdemo.configs.Status;
 import com.learning.shilu.daggerdemo.interfaces.OnFragmentInteractionListener;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.realm.Realm;
 
 public class SecondFragment extends Fragment {
-    private static String[] listFeels;
-    private String statusId;
-    private Status status;
+    private static final String STATUS_ID = "StatusId";
 
     @Inject
     PrefConfig prefConfig;
 
     @Inject
     Realm realm;
+
+    @Inject
+    @Named(Constants.Inject.LIST_FEELS)
+    String[] listFeels;
 
 //    @Inject
 //    PreferencesModule preferencesModule;
@@ -39,14 +43,15 @@ public class SecondFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private DaggerDemoSettings daggerDemoSettings;
+    private String statusId;
+    private Status status;
 
-    public SecondFragment() {
-    }
-
-    public SecondFragment(String[] listFeels, String statusId) {
-        // Required empty public constructor
-        this.listFeels = listFeels;
-        this.statusId = statusId;
+    public static SecondFragment newInstance(String statusId) {
+        SecondFragment fragment = new SecondFragment();
+        Bundle args = new Bundle();
+        args.putString(STATUS_ID, statusId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -54,8 +59,11 @@ public class SecondFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // inject dagger
         DaggerDemoApplication.getComponent().inject(this);
-        if (statusId != null) {
-            status = realm.where(Status.class).equalTo("id", statusId).findFirst();
+        if (getArguments() != null) {
+            statusId = getArguments().getString(STATUS_ID);
+            if (statusId != null) {
+                status = realm.where(Status.class).equalTo("id", statusId).findFirst();
+            }
         }
     }
 
@@ -98,7 +106,7 @@ public class SecondFragment extends Fragment {
 //        sharedPreferences.edit().putBoolean(Constants.KEY_STATUS, true);
         prefConfig.setStatus(true);
         if (mListener != null) {
-            mListener.onFragmentInteraction(null);
+            mListener.onFragmentInteraction(Constants.TO_FIRST_FRAGMENT, status.getId());
         }
     }
 
@@ -119,4 +127,5 @@ public class SecondFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 }
