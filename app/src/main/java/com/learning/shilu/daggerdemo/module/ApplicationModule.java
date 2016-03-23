@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 import com.learning.shilu.daggerdemo.DaggerDemoApplication;
+import com.learning.shilu.daggerdemo.DemoRealmConfiguration;
 import com.learning.shilu.daggerdemo.configs.Config;
 import com.learning.shilu.daggerdemo.configs.Constants;
 import com.learning.shilu.daggerdemo.configs.PrefConfig;
@@ -62,7 +63,9 @@ public class ApplicationModule {
     @Singleton
     public Realm provideRealm(Context context) {
         //Create a RealmConfiguration which is to locate Realm file in package's "files" directory.
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(context).build();
+        // RealmConfiguration realmConfig = new RealmConfiguration.Builder(context).build();
+
+        RealmConfiguration realmConfig = new DemoRealmConfiguration().startConfiguration(context);
         //Get a Realm instance for this thread
         return Realm.getInstance(realmConfig);
     }
